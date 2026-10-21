@@ -14,17 +14,24 @@
 
 이 과목은 RunPod GPU 서버(파드)에 VS Code로 접속해 실습합니다. SSH 키 만들기, 파드 만들기, VS Code 연결, 정지와 종료는 [day65 부록: RunPod GPU에서 실습하기](day65_딥러닝_학습원리/부록_RunPod_GPU에서_실습하기.ipynb)에 화면과 함께 있습니다.
 
-VS Code로 파드에 접속한 뒤 터미널에서 자료를 받고 남은 라이브러리를 설치합니다. PyTorch는 RunPod PyTorch 템플릿에 들어 있습니다.
+VS Code로 파드에 접속한 뒤 터미널에서 자료를 받고 uv로 환경을 만듭니다. RunPod PyTorch 템플릿에는 git·curl·uv가 들어 있습니다.
 
 ```bash
 cd /workspace
 git clone https://github.com/paircodingofficial-cloud/enkoa-practice-deep-learning.git
-pip install pandas matplotlib
-apt-get update && apt-get install -y fonts-nanum
-rm -rf ~/.cache/matplotlib
+cd enkoa-practice-deep-learning
+uv sync                                   # pyproject.toml·uv.lock 그대로 설치(PyTorch CUDA 12.8 빌드 포함, 약 1분)
+apt-get update && apt-get install -y fonts-nanum   # 그래프 한글 글꼴
 ```
 
-노트북 커널은 **Python 3.12.3 (/usr/bin/python3)** 을 고릅니다. PyTorch는 이 파이썬에만 설치돼 있습니다.
+`git`·`uv` 가 없다는 오류가 나면 먼저 설치합니다.
+
+```bash
+apt-get update && apt-get install -y git curl
+curl -LsSf https://astral.sh/uv/install.sh | sh && source $HOME/.local/bin/env
+```
+
+노트북 커널은 저장소의 **.venv (Python 3.12)** 를 고릅니다. 내 PC(CPU)에서 열어 볼 때도 저장소 폴더에서 `uv sync` 한 뒤 같은 `.venv` 를 고르면 됩니다.
 
 ---
 
@@ -34,5 +41,5 @@ rm -rf ~/.cache/matplotlib
 > ### 실습 결과는 끝내기 전에 **내려받으세요.**
 
 - 파드를 새로 켜면 위 명령을 처음부터 다시 실행합니다.
-- 네트워크 볼륨에 받아 둔 자료는 `git pull` 로 새 자료를 받습니다. 원본을 고쳐 `pull` 이 충돌로 막히면 저장소 폴더에서 `python 업데이트.py` 를 실행합니다(바뀐 내용은 `.백업/` 에 보관됩니다).
+- 네트워크 볼륨에 받아 둔 자료는 `git pull` 로 새 자료를 받습니다. 원본을 고쳐 `pull` 이 충돌로 막히면 저장소 폴더에서 `uv run 업데이트.py` 를 실행합니다(바뀐 내용은 `.백업/` 에 보관됩니다).
 - 실습은 원본 대신 `내작업/` 폴더에 복사해서 합니다. `내작업/` 안의 파일은 깃이 무시합니다.

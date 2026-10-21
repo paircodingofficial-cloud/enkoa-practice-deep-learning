@@ -1,0 +1,27 @@
+[project]
+name = "enkoa-practice-deep-learning"
+version = "0.1.0"
+description = "엔코아 AI캠퍼스 딥러닝 실습자료"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "ipykernel>=7.3.0",
+    "numpy>=2.3",
+    "pandas>=2.3,<3",
+    "matplotlib>=3.11",
+    # day65~: PyTorch. 리눅스(RunPod)는 아래 cu128 인덱스에서 CUDA 12.8 빌드를 받는다.
+    #   PyPI 기본 리눅스 휠은 더 새 CUDA 로 빌드될 수 있어, 드라이버가 CUDA 12.8 까지만 되는 파드에서 GPU 를 못 잡는다.
+    #   cu128 빌드가 나오는 마지막 줄기(2.11)에 맞춰 맥·윈도우도 같은 버전을 쓴다.
+    "torch>=2.11,<2.12",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true

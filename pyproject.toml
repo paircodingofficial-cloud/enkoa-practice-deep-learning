@@ -13,6 +13,8 @@ dependencies = [
     #   PyPI 기본 리눅스 휠은 더 새 CUDA 로 빌드될 수 있어, 드라이버가 CUDA 12.8 까지만 되는 파드에서 GPU 를 못 잡는다.
     #   cu128 빌드가 나오는 마지막 줄기(2.11)에 맞춰 맥·윈도우도 같은 버전을 쓴다.
     "torch>=2.11,<2.12",
+    # day65~: 학습용과 테스트용 나누기(train_test_split, stratify)
+    "scikit-learn>=1.7",
 ]
 
 [tool.uv]

@@ -1,0 +1,38 @@
+# 딥러닝 실습자료
+
+엔코아 AI캠퍼스 「데이터 분석 & AI 머신러닝 캠프」 딥러닝 과목 실습용 주피터 노트북입니다. 수업 진도에 맞춰 자료가 추가됩니다.
+
+### 수록 자료
+
+| 일차 | 주제 | 배우는 것 |
+|---|---|---|
+| **day65** | 딥러닝 학습 원리 | 모델이 학습하는 반복(예측, 손실 계산, 기울기 계산, 파라미터 갱신)을 PyTorch로 직접 돌려 봅니다. 교안 01은 직선 모델 하나로 **손실함수(MSE·MAE)·autograd·경사하강·학습률**을, 교안 02는 손글씨 숫자를 분류하는 **DNN**으로 교차 엔트로피, `DataLoader` 미니배치 학습 루프, SGD·모멘텀·Adam, warmup + cosine 스케줄러를 다룹니다. 과제는 타이타닉 생존 예측과 날짜로 요일 맞히기입니다 |
+
+---
+
+## 실습 환경: RunPod GPU + VS Code
+
+이 과목은 RunPod GPU 서버(파드)에 VS Code로 접속해 실습합니다. SSH 키 만들기, 파드 만들기, VS Code 연결, 정지와 종료는 [day65 부록: RunPod GPU에서 실습하기](day65_딥러닝_학습원리/부록_RunPod_GPU에서_실습하기.ipynb)에 화면과 함께 있습니다.
+
+VS Code로 파드에 접속한 뒤 터미널에서 자료를 받고 남은 라이브러리를 설치합니다. PyTorch는 RunPod PyTorch 템플릿에 들어 있습니다.
+
+```bash
+cd /workspace
+git clone https://github.com/paircodingofficial-cloud/enkoa-practice-deep-learning.git
+pip install pandas matplotlib
+apt-get update && apt-get install -y fonts-nanum
+rm -rf ~/.cache/matplotlib
+```
+
+노트북 커널은 **Python 3.12.3 (/usr/bin/python3)** 을 고릅니다. PyTorch는 이 파이썬에만 설치돼 있습니다.
+
+---
+
+## ⚠️ 꼭 기억하세요
+
+> ### 볼륨 없이 만든 파드는 **정지하면 파일이 모두 지워집니다.**
+> ### 실습 결과는 끝내기 전에 **내려받으세요.**
+
+- 파드를 새로 켜면 위 명령을 처음부터 다시 실행합니다.
+- 네트워크 볼륨에 받아 둔 자료는 `git pull` 로 새 자료를 받습니다. 원본을 고쳐 `pull` 이 충돌로 막히면 저장소 폴더에서 `python 업데이트.py` 를 실행합니다(바뀐 내용은 `.백업/` 에 보관됩니다).
+- 실습은 원본 대신 `내작업/` 폴더에 복사해서 합니다. `내작업/` 안의 파일은 깃이 무시합니다.

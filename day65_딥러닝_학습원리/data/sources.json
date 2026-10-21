@@ -1,0 +1,44 @@
+[
+ {
+  "file": "본실습/study_scores.csv",
+  "rows": 100,
+  "source": "수업용으로 만든 데이터(seed 65)",
+  "license": "-",
+  "note": "점수 = 35 + 6 x 공부시간 + 잡음(표준편차 5), 0~100으로 자름"
+ },
+ {
+  "file": "따라하기/auto_mpg.csv",
+  "rows": 398,
+  "source": "UCI Machine Learning Repository #9 Auto MPG",
+  "license": "CC BY 4.0",
+  "note": "무게 파운드 -> kg(x0.453592, 정수 반올림), 연비 mpg -> km/L(x0.425144). 마력 등 다른 열은 뺐다"
+ },
+ {
+  "file": "본실습/mnist_small.pt",
+  "rows": 12000,
+  "source": "MNIST (LeCun, Cortes & Burges), ossci-datasets 미러",
+  "license": "CC BY-SA 3.0",
+  "note": "학습 60,000장 중 10,000장, 테스트 10,000장 중 2,000장(seed 65). 픽셀은 0~255 uint8 그대로"
+ },
+ {
+  "file": "따라하기/breast_cancer.csv",
+  "rows": 569,
+  "source": "UCI Machine Learning Repository #17 Breast Cancer Wisconsin (Diagnostic)",
+  "license": "CC BY 4.0",
+  "note": "id 열을 빼고 진단 M/B를 악성 1/0으로 바꿨다. 측정값 30개는 원본 그대로"
+ },
+ {
+  "file": "과제01/titanic.csv",
+  "rows": 891,
+  "source": "seaborn titanic(day07 data와 같은 파일)",
+  "license": "BSD-3-Clause(seaborn-data)",
+  "note": "가공 없음"
+ },
+ {
+  "file": "과제02/dates.csv",
+  "rows": 10958,
+  "source": "파이썬 datetime으로 만든 달력",
+  "license": "-",
+  "note": "요일 0=월 1=화 2=수 3=목 4=금 5=토 6=일"
+ }
+]

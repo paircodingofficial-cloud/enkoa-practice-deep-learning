@@ -1,0 +1,71 @@
+[
+ {
+  "file": "본실습/mnist_small.pt",
+  "rows": 12000,
+  "class_names": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9"
+  ],
+  "source": "MNIST (LeCun, Cortes & Burges)",
+  "license": "CC BY-SA 3.0",
+  "note": "day65 data/본실습/mnist_small.pt 와 같은 표본(seed 65)"
+ },
+ {
+  "file": "따라하기/fashion_small.pt",
+  "rows": 12000,
+  "class_names": [
+   "티셔츠",
+   "바지",
+   "스웨터",
+   "드레스",
+   "코트",
+   "샌들",
+   "셔츠",
+   "운동화",
+   "가방",
+   "앵클부츠"
+  ],
+  "source": "Fashion-MNIST (Xiao, Rasul & Vollgraf 2017, Zalando Research)",
+  "license": "MIT",
+  "note": "학습 60,000장 중 10,000장, 테스트 10,000장 중 2,000장(seed 66)"
+ },
+ {
+  "file": "과제01/quickdraw10.pt",
+  "rows": 12000,
+  "class_names": [
+   "고양이",
+   "자전거",
+   "피자",
+   "사과",
+   "집",
+   "별",
+   "물고기",
+   "우산",
+   "시계",
+   "비행기"
+  ],
+  "source": "Quick, Draw! Dataset (Google Creative Lab), numpy_bitmap",
+  "license": "CC BY 4.0",
+  "note": "종류마다 원본 앞 3,000장 중 1,200장(seed 66): 학습 1,000 + 테스트 200. 종류 순서대로 쌓여 있다"
+ },
+ {
+  "file": "과제02/rps48.pt",
+  "rows": 2892,
+  "class_names": [
+   "바위",
+   "보",
+   "가위"
+  ],
+  "source": "Rock Paper Scissors Dataset (Laurence Moroney)",
+  "license": "CC BY 2.0",
+  "note": "300x300 컬러 PNG를 흑백으로 바꾸고 48x48로 줄였다(PIL bilinear). 학습 2,520 + 테스트 372, 파일 이름 순"
+ }
+]

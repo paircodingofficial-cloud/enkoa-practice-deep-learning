@@ -21,9 +21,16 @@ VS Code로 파드에 접속한 뒤 터미널에서 자료를 받고 uv로 환경
 cd /workspace
 git clone https://github.com/paircodingofficial-cloud/enkoa-practice-deep-learning.git
 cd enkoa-practice-deep-learning
-uv sync                                   # pyproject.toml·uv.lock 그대로 설치(PyTorch CUDA 12.8 빌드 포함, 약 1분)
-apt-get update && apt-get install -y fonts-nanum   # 그래프 한글 글꼴
+uv run 업데이트.py                         # 최신 자료 받기, 패키지 설치, 한글 글꼴, Jupyter 커널까지 한 번에(약 1분)
 ```
+
+`uv run 업데이트.py` 가 하는 일:
+
+1. 최신 자료 받기: 서버의 최신 판으로 맞춥니다. 원본을 고쳐 둔 파일은 먼저 `.백업/` 에 보관합니다.
+2. 패키지 설치: `uv sync` 로 `pyproject.toml`·`uv.lock` 그대로 설치합니다(PyTorch CUDA 12.8 빌드 포함).
+3. 리눅스(RunPod)에서만: 그래프 한글 글꼴(`fonts-nanum`)을 설치하고 matplotlib 글꼴 목록 캐시를 지우고, `.venv` 를 Jupyter 커널 **venv** 로 등록합니다.
+
+내 PC(Windows·macOS)에서 실행하면 1, 2만 하고 3은 건너뜁니다.
 
 `git`·`uv` 가 없다는 오류가 나면 먼저 설치합니다.
 
@@ -34,7 +41,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh && source $HOME/.local/bin/env
 
 노트북 커널은 저장소의 **.venv (Python 3.12)** 를 고릅니다. 내 PC(CPU)에서 열어 볼 때도 저장소 폴더에서 `uv sync` 한 뒤 같은 `.venv` 를 고르면 됩니다.
 
-브라우저의 Jupyter Lab으로 열려면 저장소 폴더에서 `uv run jupyter lab` 을 실행합니다(Jupyter는 `uv sync` 때 함께 설치됩니다).
+브라우저의 Jupyter Lab으로 열려면 저장소 폴더에서 `uv run jupyter lab` 을 실행하고 커널로 **venv** 를 고릅니다(Jupyter는 `uv sync` 때 함께 설치됩니다).
 
 ---
 
@@ -44,5 +51,5 @@ curl -LsSf https://astral.sh/uv/install.sh | sh && source $HOME/.local/bin/env
 > ### 실습 결과는 끝내기 전에 **내려받으세요.**
 
 - 파드를 새로 켜면 위 명령을 처음부터 다시 실행합니다.
-- 네트워크 볼륨에 받아 둔 자료는 `git pull` 로 새 자료를 받습니다. 원본을 고쳐 `pull` 이 충돌로 막히면 저장소 폴더에서 `uv run 업데이트.py` 를 실행합니다(바뀐 내용은 `.백업/` 에 보관됩니다).
+- 새 자료가 올라오면 저장소 폴더에서 `uv run 업데이트.py` 를 다시 실행합니다. `git pull` 이 충돌로 막혔을 때도 이 명령으로 풀립니다(바뀐 내용은 `.백업/` 에 보관됩니다).
 - 실습은 원본 대신 `내작업/` 폴더에 복사해서 합니다. `내작업/` 안의 파일은 깃이 무시합니다.

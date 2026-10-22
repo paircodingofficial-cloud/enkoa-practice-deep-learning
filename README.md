@@ -34,6 +34,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh && source $HOME/.local/bin/env
 
 노트북 커널은 저장소의 **.venv (Python 3.12)** 를 고릅니다. 내 PC(CPU)에서 열어 볼 때도 저장소 폴더에서 `uv sync` 한 뒤 같은 `.venv` 를 고르면 됩니다.
 
+브라우저의 Jupyter Lab으로 열려면 저장소 폴더에서 `uv run jupyter lab` 을 실행합니다(Jupyter는 `uv sync` 때 함께 설치됩니다).
+
 ---
 
 ## ⚠️ 꼭 기억하세요

@@ -13,7 +13,7 @@ RunPod(리눅스) 전용입니다. 맥·윈도우에서는 아무것도 하지 �
 2. 파이썬 환경 맞추기: `uv sync` 로 pyproject.toml, uv.lock 에 적힌 패키지를 설치합니다.
 3. 그래프 한글 글꼴(저장소의 fonts/ 나눔고딕)을 복사하고, matplotlib 글꼴 목록을 새로 만들게 하고,
    Jupyter Lab 에서 쓸 수 있게 .venv 를 커널(venv)로 등록합니다.
-4. VS Code 로 접속한 터미널이면 파드에 Python·Jupyter 확장을 설치합니다.
+4. VS Code 로 접속한 터미널이면 파드에 Python·Jupyter·Code Class Live Sharing 확장을 설치합니다.
 """
 import os
 import platform
@@ -24,6 +24,9 @@ from datetime import datetime
 from pathlib import Path
 
 BACKUP_ROOT = Path(".백업")
+
+# 파드에 설치할 VS Code 확장: Python, Jupyter, 수업 화면 공유(Code Class Live Sharing)
+VSCODE_EXTENSIONS = ["ms-python.python", "ms-toolsai.jupyter", "codeclasslive.code-class-live-sharing"]
 
 
 def git(*args: str) -> subprocess.CompletedProcess:
@@ -87,16 +90,19 @@ def register_kernel() -> None:
 
 
 def install_vscode_extensions() -> None:
-    """VS Code 로 접속한 터미널이면 파드에 Python·Jupyter 확장을 설치한다."""
+    """VS Code 로 접속한 터미널이면 파드에 VSCODE_EXTENSIONS 의 확장을 설치한다."""
     # VS Code 원격 터미널에서는 code 명령이 파드의 VS Code 서버로 연결된다(VSCODE_IPC_HOOK_CLI).
     # Jupyter Lab 터미널처럼 VS Code 밖에서 실행했다면 건너뛴다
     if not os.environ.get("VSCODE_IPC_HOOK_CLI") or shutil.which("code") is None:
         return
-    print("\nVS Code 확장(Python, Jupyter)을 파드에 설치하는 중...")
-    if run(["code", "--install-extension", "ms-python.python", "--install-extension", "ms-toolsai.jupyter"]):
+    print("\nVS Code 확장(Python, Jupyter, Code Class Live Sharing)을 파드에 설치하는 중...")
+    command = ["code"]
+    for extension_id in VSCODE_EXTENSIONS:
+        command += ["--install-extension", extension_id]
+    if run(command):
         print("   설치했습니다.")
     else:
-        print("   설치하지 못했습니다. 왼쪽 Extensions 에서 Python, Jupyter 를 직접 설치하세요.")
+        print("   설치하지 못했습니다. 왼쪽 Extensions 에서 Python, Jupyter, Code Class Live Sharing 을 직접 설치하세요.")
 
 
 def setup_environment() -> None:

@@ -27,7 +27,7 @@ cd /workspace && { [ -d enkoa-practice-deep-learning ] || git clone https://gith
 2. 패키지 설치: `uv sync` 로 `pyproject.toml`·`uv.lock` 그대로 설치합니다(PyTorch CUDA 12.8 빌드 포함).
 3. 한글 글꼴: 저장소의 나눔고딕(`fonts/`)을 `~/.fonts` 에 복사하고 matplotlib 글꼴 목록 캐시를 지웁니다(apt 설치를 기다리지 않습니다).
 4. Jupyter 커널: `.venv` 를 Jupyter 커널 **venv** 로 등록합니다.
-5. VS Code 확장: VS Code 터미널에서 실행했다면 Python·Jupyter 확장을 파드에 설치합니다.
+5. VS Code 확장: VS Code 터미널에서 실행했다면 Python·Jupyter·Code Class Live Sharing 확장을 파드에 설치합니다.
 
 이 도우미는 RunPod(리눅스) 전용입니다. 내 PC(Windows·macOS)에서 실행하면 아무것도 하지 않고 끝나니, 내 PC에서는 `git pull` 과 `uv sync` 를 직접 실행합니다.
 

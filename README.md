@@ -15,20 +15,19 @@
 
 이 과목은 RunPod GPU 서버(파드)에 VS Code로 접속해 실습합니다. SSH 키 만들기, 파드 만들기, VS Code 연결, 정지와 종료는 [day65 부록: RunPod GPU에서 실습하기](day65_딥러닝_학습원리/부록_RunPod_GPU에서_실습하기.ipynb)에 화면과 함께 있습니다.
 
-VS Code로 파드에 접속한 뒤 터미널에서 자료를 받고 uv로 환경을 만듭니다. RunPod PyTorch 템플릿에는 git·curl·uv가 들어 있습니다.
+VS Code로 파드에 접속한 뒤 터미널에 아래 한 줄을 붙여 넣습니다. 저장소가 없으면 복제하고, 있으면 최신 자료로 맞춘 뒤 환경을 만듭니다. 파드를 새로 켤 때마다 같은 한 줄이면 됩니다. RunPod PyTorch 템플릿에는 git·curl·uv가 들어 있습니다.
 
 ```bash
-cd /workspace
-git clone https://github.com/paircodingofficial-cloud/enkoa-practice-deep-learning.git
-cd enkoa-practice-deep-learning
-uv run 업데이트.py                         # 최신 자료 받기, 패키지 설치, 한글 글꼴, Jupyter 커널까지 한 번에(약 1분)
+cd /workspace && { [ -d enkoa-practice-deep-learning ] || git clone https://github.com/paircodingofficial-cloud/enkoa-practice-deep-learning.git; } && cd enkoa-practice-deep-learning && uv run 업데이트.py
 ```
 
 `uv run 업데이트.py` 가 하는 일:
 
 1. 최신 자료 받기: 서버의 최신 판으로 맞춥니다. 원본을 고쳐 둔 파일은 먼저 `.백업/` 에 보관합니다.
 2. 패키지 설치: `uv sync` 로 `pyproject.toml`·`uv.lock` 그대로 설치합니다(PyTorch CUDA 12.8 빌드 포함).
-3. 그래프 한글 글꼴(`fonts-nanum`)을 설치하고 matplotlib 글꼴 목록 캐시를 지우고, `.venv` 를 Jupyter 커널 **venv** 로 등록합니다.
+3. 한글 글꼴: 저장소의 나눔고딕(`fonts/`)을 `~/.fonts` 에 복사하고 matplotlib 글꼴 목록 캐시를 지웁니다(apt 설치를 기다리지 않습니다).
+4. Jupyter 커널: `.venv` 를 Jupyter 커널 **venv** 로 등록합니다.
+5. VS Code 확장: VS Code 터미널에서 실행했다면 Python·Jupyter 확장을 파드에 설치합니다.
 
 이 도우미는 RunPod(리눅스) 전용입니다. 내 PC(Windows·macOS)에서 실행하면 아무것도 하지 않고 끝나니, 내 PC에서는 `git pull` 과 `uv sync` 를 직접 실행합니다.
 
@@ -50,6 +49,6 @@ curl -LsSf https://astral.sh/uv/install.sh | sh && source $HOME/.local/bin/env
 > ### 볼륨 없이 만든 파드는 **정지하면 파일이 모두 지워집니다.**
 > ### 실습 결과는 끝내기 전에 **내려받으세요.**
 
-- 파드를 새로 켜면 위 명령을 처음부터 다시 실행합니다.
+- 파드를 새로 켜면 위의 한 줄 명령을 다시 실행합니다.
 - 새 자료가 올라오면 RunPod 의 저장소 폴더에서 `uv run 업데이트.py` 를 다시 실행합니다(맥·윈도우에서는 실행되지 않습니다). `git pull` 이 충돌로 막혔을 때도 이 명령으로 풀립니다(바뀐 내용은 `.백업/` 에 보관됩니다).
 - 실습은 원본 대신 `내작업/` 폴더에 복사해서 합니다. `내작업/` 안의 파일은 깃이 무시합니다.

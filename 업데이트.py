@@ -11,8 +11,9 @@ RunPod(리눅스) 전용입니다. 맥·윈도우에서는 아무것도 하지 �
    '내작업/' 폴더와 여러분이 만든 파일은 건드리지 않고,
    되돌리기 전에 바뀐 내용은 '.백업/날짜_시각/' 에 그대로 보관합니다.
 2. 파이썬 환경 맞추기: `uv sync` 로 pyproject.toml, uv.lock 에 적힌 패키지를 설치합니다.
-3. 그래프 한글 글꼴(나눔고딕)을 설치하고, matplotlib 글꼴 목록을 새로 만들게 하고,
+3. 그래프 한글 글꼴(저장소의 fonts/ 나눔고딕)을 복사하고, matplotlib 글꼴 목록을 새로 만들게 하고,
    Jupyter Lab 에서 쓸 수 있게 .venv 를 커널(venv)로 등록합니다.
+4. VS Code 로 접속한 터미널이면 파드에 Python·Jupyter 확장을 설치합니다.
 """
 import os
 import platform
@@ -46,33 +47,21 @@ def run(command: list) -> bool:
     return subprocess.run(command).returncode == 0
 
 
-def nanum_installed() -> bool:
-    """나눔고딕 글꼴 파일이 시스템 글꼴 폴더에 있는지 본다."""
-    for folder in ["/usr/share/fonts", "/usr/local/share/fonts", str(Path.home() / ".fonts")]:
-        if list(Path(folder).glob("**/NanumGothic*.ttf")):
-            return True
-    return False
-
-
 def setup_linux_fonts() -> None:
-    """리눅스(RunPod)에서 나눔고딕을 설치하고 matplotlib 글꼴 목록 캐시를 지운다."""
-    print("\n그래프 한글 글꼴(나눔고딕)을 확인하는 중...")
-    if nanum_installed():
-        print("   이미 설치되어 있습니다.")
-    else:
-        # RunPod 파드는 root 로 접속하므로 apt-get 을 바로 쓰고, root 가 아니면 sudo 를 붙인다
-        prefix = []
-        if os.geteuid() != 0:
-            if shutil.which("sudo") is None:
-                print("   관리자 권한이 없어 글꼴을 설치하지 못했습니다. 관리자에게 아래 명령을 부탁하세요.")
-                print("   apt-get update && apt-get install -y fonts-nanum")
-                return
-            prefix = ["sudo"]
-        ok = run(prefix + ["apt-get", "update"]) and run(prefix + ["apt-get", "install", "-y", "fonts-nanum"])
-        if not ok or not nanum_installed():
-            print("   글꼴을 설치하지 못했습니다. 위 메시지를 강사님께 보여 주세요.")
-            return
-        print("   설치했습니다.")
+    """저장소의 나눔고딕(fonts/)을 ~/.fonts 에 복사하고 matplotlib 글꼴 목록 캐시를 지운다."""
+    print("\n그래프 한글 글꼴(나눔고딕)을 준비하는 중...")
+    # apt-get 으로 설치하면 패키지 목록부터 내려받아 오래 걸린다.
+    # 저장소에 넣어 둔 글꼴 파일을 matplotlib 이 찾아보는 ~/.fonts 에 복사하기만 한다
+    font_dir = Path.home() / ".fonts"
+    font_dir.mkdir(exist_ok=True)
+    copied = 0
+    for font_file in Path("fonts").glob("NanumGothic*.ttf"):
+        shutil.copy2(font_file, font_dir / font_file.name)
+        copied += 1
+    if copied == 0:
+        print("   저장소에서 fonts/ 의 글꼴 파일을 찾지 못했습니다. 위 메시지를 강사님께 보여 주세요.")
+        return
+    print(f"   글꼴 파일 {copied}개를 {font_dir} 에 복사했습니다.")
 
     # matplotlib 은 처음 쓸 때 만든 글꼴 목록을 캐시 파일로 저장해 두고 계속 쓴다.
     # 글꼴을 설치하기 전에 만든 목록에는 나눔고딕이 없으므로 지워서 다시 만들게 한다
@@ -97,6 +86,19 @@ def register_kernel() -> None:
         print("   등록하지 못했습니다. VS Code 로 실습한다면 이 단계는 없어도 됩니다.")
 
 
+def install_vscode_extensions() -> None:
+    """VS Code 로 접속한 터미널이면 파드에 Python·Jupyter 확장을 설치한다."""
+    # VS Code 원격 터미널에서는 code 명령이 파드의 VS Code 서버로 연결된다(VSCODE_IPC_HOOK_CLI).
+    # Jupyter Lab 터미널처럼 VS Code 밖에서 실행했다면 건너뛴다
+    if not os.environ.get("VSCODE_IPC_HOOK_CLI") or shutil.which("code") is None:
+        return
+    print("\nVS Code 확장(Python, Jupyter)을 파드에 설치하는 중...")
+    if run(["code", "--install-extension", "ms-python.python", "--install-extension", "ms-toolsai.jupyter"]):
+        print("   설치했습니다.")
+    else:
+        print("   설치하지 못했습니다. 왼쪽 Extensions 에서 Python, Jupyter 를 직접 설치하세요.")
+
+
 def setup_environment() -> None:
     """uv sync 로 패키지를 맞추고, 리눅스라면 글꼴과 커널까지 준비한다."""
     print("\n파이썬 환경을 맞추는 중(uv sync)...")
@@ -105,15 +107,16 @@ def setup_environment() -> None:
 
     setup_linux_fonts()
     register_kernel()
+    install_vscode_extensions()
 
 
 def main() -> None:
-    # 안내 문구와 uv, apt-get 출력이 화면에 순서대로 나오게 한 줄씩 바로 내보낸다
+    # 안내 문구와 uv 출력이 화면에 순서대로 나오게 한 줄씩 바로 내보낸다
     sys.stdout.reconfigure(line_buffering=True)
     print("실습자료 업데이트와 실습 환경 준비 도우미")
     print("─" * 46)
 
-    # RunPod 파드는 리눅스다. 맥·윈도우에서는 git reset 이나 apt-get 을 하지 않고 바로 끝낸다
+    # RunPod 파드는 리눅스다. 맥·윈도우에서는 git reset 이나 uv sync 를 하지 않고 바로 끝낸다
     if platform.system() != "Linux":
         name = {"Darwin": "macOS"}.get(platform.system(), platform.system())
         print(f"\n이 도우미는 RunPod(리눅스)에서만 실행합니다. 지금 컴퓨터는 {name} 입니다.")

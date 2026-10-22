@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """실습자료 업데이트와 실습 환경 준비 도우미.
 
+RunPod(리눅스) 전용입니다. 맥·윈도우에서는 아무것도 하지 않고 끝납니다.
 저장소 폴더에서 아래 한 줄을 실행하면 다음을 차례로 합니다.
 
     uv run 업데이트.py
@@ -10,7 +11,7 @@
    '내작업/' 폴더와 여러분이 만든 파일은 건드리지 않고,
    되돌리기 전에 바뀐 내용은 '.백업/날짜_시각/' 에 그대로 보관합니다.
 2. 파이썬 환경 맞추기: `uv sync` 로 pyproject.toml, uv.lock 에 적힌 패키지를 설치합니다.
-3. 리눅스(RunPod)에서만: 그래프 한글 글꼴(나눔고딕)을 설치하고, matplotlib 글꼴 목록을 새로 만들게 하고,
+3. 그래프 한글 글꼴(나눔고딕)을 설치하고, matplotlib 글꼴 목록을 새로 만들게 하고,
    Jupyter Lab 에서 쓸 수 있게 .venv 를 커널(venv)로 등록합니다.
 """
 import os
@@ -102,11 +103,8 @@ def setup_environment() -> None:
     if not run(["uv", "sync"]):
         fail("uv sync 가 실패했습니다.", "위 메시지를 확인하고, 인터넷 연결을 확인해 주세요.")
 
-    if platform.system() == "Linux":
-        setup_linux_fonts()
-        register_kernel()
-    else:
-        print(f"\n{platform.system()} 이라 글꼴 설치와 커널 등록은 건너뜁니다(리눅스 RunPod 에서만 합니다).")
+    setup_linux_fonts()
+    register_kernel()
 
 
 def main() -> None:
@@ -114,6 +112,13 @@ def main() -> None:
     sys.stdout.reconfigure(line_buffering=True)
     print("실습자료 업데이트와 실습 환경 준비 도우미")
     print("─" * 46)
+
+    # RunPod 파드는 리눅스다. 맥·윈도우에서는 git reset 이나 apt-get 을 하지 않고 바로 끝낸다
+    if platform.system() != "Linux":
+        name = {"Darwin": "macOS"}.get(platform.system(), platform.system())
+        print(f"\n이 도우미는 RunPod(리눅스)에서만 실행합니다. 지금 컴퓨터는 {name} 입니다.")
+        print("   내 PC 에서는 저장소 폴더에서 git pull 과 uv sync 를 직접 실행하세요.")
+        sys.exit(1)
 
     # 저장소 폴더 안에서 실행됐는지 확인 (더블클릭 실행 대비)
     here = Path(__file__).resolve().parent

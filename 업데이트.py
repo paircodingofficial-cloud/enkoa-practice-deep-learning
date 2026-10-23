@@ -89,20 +89,45 @@ def register_kernel() -> None:
         print("   등록하지 못했습니다. VS Code 로 실습한다면 이 단계는 없어도 됩니다.")
 
 
+def find_vscode_cli() -> str | None:
+    """파드의 VS Code 서버에 들어 있는 code 명령의 경로를 찾는다."""
+    found = shutil.which("code")
+    if found:
+        return found
+    # 터미널 설정이나 가상 환경 활성화로 PATH 에서 빠지는 경우가 있어, VS Code 서버 폴더에서 직접 찾는다
+    # (최신판은 cli/servers/..., 예전 판은 bin/... 아래에 있다)
+    server_dir = Path.home() / ".vscode-server"
+    candidates = list(server_dir.glob("cli/servers/*/server/bin/remote-cli/code"))
+    candidates += list(server_dir.glob("bin/*/bin/remote-cli/code"))
+    if not candidates:
+        return None
+    # VS Code 를 업데이트하면 서버가 여러 판 남으므로 가장 최근 것을 쓴다
+    return str(max(candidates, key=lambda path: path.stat().st_mtime))
+
+
 def install_vscode_extensions() -> None:
     """VS Code 로 접속한 터미널이면 파드에 VSCODE_EXTENSIONS 의 확장을 설치한다."""
-    # VS Code 원격 터미널에서는 code 명령이 파드의 VS Code 서버로 연결된다(VSCODE_IPC_HOOK_CLI).
-    # Jupyter Lab 터미널처럼 VS Code 밖에서 실행했다면 건너뛴다
-    if not os.environ.get("VSCODE_IPC_HOOK_CLI") or shutil.which("code") is None:
-        return
     print("\nVS Code 확장(Python, Jupyter, Code Class Live Sharing)을 파드에 설치하는 중...")
-    command = ["code"]
+    manual = "   왼쪽 Extensions 에서 Python, Jupyter, Code Class Live Sharing 을 직접 설치하세요."
+    # VS Code 원격 터미널에서는 code 명령이 파드의 VS Code 서버로 연결된다(VSCODE_IPC_HOOK_CLI).
+    # Jupyter Lab 이나 RunPod 웹 터미널처럼 VS Code 밖에서 실행했다면 설치할 수 없다
+    if not os.environ.get("VSCODE_IPC_HOOK_CLI"):
+        print("   VS Code 터미널이 아니라 건너뜁니다. VS Code 로 접속한 터미널에서 다시 실행하거나,")
+        print(manual)
+        return
+    code = find_vscode_cli()
+    if code is None:
+        print("   파드에서 VS Code 의 code 명령을 찾지 못했습니다.")
+        print(manual)
+        return
+    command = [code]
     for extension_id in VSCODE_EXTENSIONS:
         command += ["--install-extension", extension_id]
     if run(command):
         print("   설치했습니다.")
     else:
-        print("   설치하지 못했습니다. 왼쪽 Extensions 에서 Python, Jupyter, Code Class Live Sharing 을 직접 설치하세요.")
+        print("   설치하지 못했습니다.")
+        print(manual)
 
 
 def setup_environment() -> None:
@@ -132,6 +157,8 @@ def main() -> None:
     # 저장소 폴더 안에서 실행됐는지 확인 (더블클릭 실행 대비)
     here = Path(__file__).resolve().parent
     os.chdir(here)
+    # 받기 전 이 파일의 내용. 업데이트로 이 파일이 바뀌면 새 판으로 다시 실행한다
+    script_before = Path(__file__).read_bytes()
 
     if git("rev-parse", "--is-inside-work-tree").returncode != 0:
         fail(
@@ -190,6 +217,11 @@ def main() -> None:
         fail("자료를 되돌리지 못했습니다.", reset.stderr.strip())
 
     print("   최신 자료를 받았습니다.")
+
+    # 지금 돌고 있는 것은 받기 전의 이 파일이다. 새 판이 왔으면 그 판으로 처음부터 다시 실행한다
+    if Path(__file__).read_bytes() != script_before:
+        print("\n업데이트 도우미가 새 판으로 바뀌어 다시 실행합니다.\n")
+        os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve())])
 
     setup_environment()
 

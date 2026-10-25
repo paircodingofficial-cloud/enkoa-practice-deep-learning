@@ -1,0 +1,20 @@
+{
+ "본실습/nsmc_train.csv, 본실습/nsmc_test.csv": {
+  "출처": "NSMC, Naver sentiment movie corpus (e9t/nsmc)",
+  "주소": "https://github.com/e9t/nsmc",
+  "라이선스": "CC0 1.0",
+  "가공": "빈 리뷰 제거, 공백 정리, 중복 제거, seed 67로 학습 50,000 / 테스트 5,000 표본, 학습용과 같은 리뷰는 테스트에서 제외 (build_data_nsmc.py)"
+ },
+ "과제01/intent_train.csv, 과제01/intent_test.csv": {
+  "출처": "3i4k FCI, 문장 의도 7종 (warnikchow/3i4k data/fci.txt, Cho et al. 2018)",
+  "주소": "https://github.com/warnikchow/3i4k",
+  "라이선스": "CC BY-SA 4.0 (이 CSV도 같은 라이선스)",
+  "가공": "공백 정리, 같은 문장 중복 제거(57,315문장), seed 67로 섞어 학습 20,000 / 테스트 3,000 (겹침 0). 라벨 0 조각, 1 평서, 2 질문, 3 명령, 4 수사 의문, 5 수사 명령, 6 억양 의존 (build_data_intent.py)"
+ },
+ "교안02/shopping_train.csv, 교안02/shopping_test.csv": {
+  "출처": "네이버 쇼핑 리뷰 감성 (bab2min/corpus sentiment/naver_shopping.txt)",
+  "주소": "https://github.com/bab2min/corpus",
+  "라이선스": "Public Domain (저장소 README)",
+  "가공": "공백 정리, 빈 리뷰와 중복 제거(199,908개), 평점 4, 5는 긍정(1), 1, 2는 부정(0), seed 67로 섞어 학습 50,000 / 테스트 5,000 (겹침 0) (build_data_shopping.py)"
+ }
+}

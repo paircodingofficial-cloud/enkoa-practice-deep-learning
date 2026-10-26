@@ -19,6 +19,13 @@ dependencies = [
     "scikit-learn>=1.7",
     # day66~: 학습 코드 정리(LightningModule, Trainer, 조기 종료 콜백)
     "lightning>=2.6,<2.7",
+    # day68~: 오픈소스 LLM 로컬 실행(Transformers 로 불러와 생성, Hub 모델 정보 조회, Ollama 파이썬 클라이언트)
+    #   Ollama 프로그램 자체는 따로 설치한다(day68 설치_가이드.md)
+    "transformers>=5.13,<6",
+    "huggingface_hub>=1.33",
+    "ollama>=0.6",
+    # day68~: 로컬 Ollama 모델을 LangChain 에 연결(ChatOllama 의 구조화된 출력·도구 호출)
+    "langchain-ollama>=1.1",
 ]
 
 [tool.uv]

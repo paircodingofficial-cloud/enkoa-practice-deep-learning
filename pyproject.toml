@@ -22,7 +22,8 @@ dependencies = [
     # day68~: 오픈소스 LLM 로컬 실행(Transformers 로 불러와 생성, Hub 모델 정보 조회, Ollama 파이썬 클라이언트)
     #   Ollama 프로그램 자체는 따로 설치한다(day68 설치_가이드.md)
     "transformers>=5.13,<6",
-    "huggingface-hub>=1.33",
+    #   huggingface-hub 2.x 는 click>=8.4.2 를 요구해 deepeval(click<8.4, day70)과 함께 설치되지 않는다
+    "huggingface-hub>=1.13,<1.33",
     "ollama>=0.6",
     # day68~: 로컬 Ollama 모델을 LangChain 에 연결(ChatOllama 의 구조화된 출력·도구 호출)
     "langchain-ollama>=1.1",
@@ -41,6 +42,15 @@ dependencies = [
     "rank-bm25>=0.2.2",
     "kiwipiepy>=0.23.2",
     "sentence-transformers>=5.6",
+    # day70~: 지도 파인튜닝(SFTTrainer 학습, jsonl 데이터셋 불러오기, 학습 기록)
+    #   SFTTrainer -> trl, Dataset -> datasets, Trainer 의 장치 배치 -> accelerate, report_to=["mlflow"] -> mlflow
+    "trl>=1.8,<2",
+    "datasets>=5.0",
+    "accelerate>=1.14",
+    #   mlflow 3.17 은 import 때 코딩 에이전트용 안내 줄을 찍어, 교안을 만든 3.14 줄기에 맞춘다
+    "mlflow>=3.14,<3.15",
+    # day70~: Base·Tuned 답 채점(Jev 판사 JevEval, TYPESAFE_API_KEY)
+    "deepeval>=4.2.9",
 ]
 
 [tool.uv]

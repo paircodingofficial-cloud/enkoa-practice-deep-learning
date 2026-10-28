@@ -1,0 +1,16 @@
+{"question": "며칠마다 계정 암호를 새로 정해야 하죠?", "keywords": ["90일"], "reference_answer": "사내 계정 비밀번호는 90일마다 변경해야 합니다.", "source": "계정", "in_train": true}
+{"question": "암호를 까먹었는데 다시 만들 수 있을까요?", "keywords": ["재설정", "사번"], "reference_answer": "포털의 '비밀번호 재설정' 메뉴에서 사번과 사내 이메일로 본인 확인을 하면 즉시 재설정할 수 있습니다.", "source": "계정", "in_train": true}
+{"question": "로그인을 계속 실패해서 막혔어요. 얼마나 기다려야 하죠?", "keywords": ["30분"], "reference_answer": "비밀번호를 5회 연속 틀리면 계정이 30분 동안 잠기고, 30분이 지나면 자동으로 풀립니다.", "source": "계정", "in_train": true}
+{"question": "그만두는 직원의 계정은 언제 없어지나요?", "keywords": ["30일"], "reference_answer": "퇴사자 계정은 퇴사일 다음 날 잠기고 30일 뒤 완전히 삭제됩니다.", "source": "계정", "in_train": true}
+{"question": "카페에서 회사 시스템에 들어가려면 뭐가 있어야 하나요?", "keywords": ["VPN", "OTP"], "reference_answer": "VPN 프로그램을 설치하고 OTP 앱으로 2차 인증을 해야 합니다.", "source": "VPN", "in_train": true}
+{"question": "VPN을 켜 두면 몇 시간 뒤에 끊어지나요?", "keywords": ["12시간"], "reference_answer": "VPN은 연결 후 12시간이 지나면 자동으로 끊기며, 다시 로그인하면 됩니다.", "source": "VPN", "in_train": true}
+{"question": "다음 주에 VPN이 막힌 나라에 가는데 무엇을 신청하죠?", "keywords": ["우회 서버", "3일"], "reference_answer": "보안팀에 임시 우회 서버를 신청해야 하며, 출장 3일 전까지 헬프데스크 티켓으로 접수합니다.", "source": "VPN", "in_train": true}
+{"question": "노트북이 망가졌는데 대신 쓸 장비는 언제 나오나요?", "keywords": ["2일"], "reference_answer": "헬프데스크에 수리 티켓을 올리면 영업일 2일 안에 대체 장비를 빌려 드립니다.", "source": "장비", "in_train": true}
+{"question": "노트북 받은 지 오래됐는데 몇 년이 지나야 교체해 주나요?", "keywords": ["4년"], "reference_answer": "업무용 노트북은 지급일로부터 4년이 지나면 교체 대상이 됩니다.", "source": "장비", "in_train": true}
+{"question": "새로 쓰고 싶은 유료 프로그램이 있는데 검토 기간은요?", "keywords": ["보안 검토", "5일"], "reference_answer": "라이선스 관리 대장에 없는 소프트웨어는 보안 검토를 먼저 신청하며, 검토는 보통 영업일 5일이 걸립니다.", "source": "소프트웨어", "in_train": true}
+{"question": "보안 패치는 무슨 요일에 깔리나요?", "keywords": ["수요일"], "reference_answer": "운영체제 보안 업데이트는 매주 수요일 밤에 자동으로 설치되며, 설치 뒤 재부팅이 필요합니다.", "source": "소프트웨어", "in_train": true}
+{"question": "수상한 링크가 든 메일이 왔는데 어떻게 처리하나요?", "keywords": ["신고"], "reference_answer": "첨부를 열지 말고 메일 상단의 '신고' 버튼으로 보안팀에 전달하세요.", "source": "보안", "in_train": false}
+{"question": "개인 USB에 자료를 담아 가도 될까요?", "keywords": ["암호화 USB"], "reference_answer": "개인 USB 저장장치는 사용할 수 없고, 업무상 필요하면 보안팀 승인을 받아 암호화 USB를 빌려 씁니다.", "source": "보안", "in_train": false}
+{"question": "메일함이 몇 기가까지 되나요?", "keywords": ["50GB"], "reference_answer": "메일함 용량은 50GB이며 90%가 차면 안내 메일이 발송됩니다.", "source": "메일", "in_train": true}
+{"question": "60MB짜리 파일은 메일로 어떻게 보내죠?", "keywords": ["대용량 전송"], "reference_answer": "메일 첨부는 25MB까지이며, 더 큰 파일은 사내 대용량 전송 시스템을 씁니다.", "source": "메일", "in_train": true}
+{"question": "회사 메일이 개인 메일로 넘어가게 설정해도 되나요?", "keywords": ["금지"], "reference_answer": "회사 메일을 외부 메일로 자동 전달하는 설정은 금지되어 있습니다.", "source": "메일", "in_train": true}

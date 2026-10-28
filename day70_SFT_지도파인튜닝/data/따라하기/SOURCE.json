@@ -1,0 +1,12 @@
+{
+ "day69_파인튜닝_데이터셋/output/lease_train.jsonl": {
+  "md5": "9968d9f68dfc752d6203525d6e68763b",
+  "rows": 137,
+  "target": "day70_SFT_지도파인튜닝/data/따라하기/lease_train.jsonl"
+ },
+ "day69_파인튜닝_데이터셋/output/lease_val.jsonl": {
+  "md5": "0e98154e4c889ee8b10d48a9de3b67ee",
+  "rows": 37,
+  "target": "day70_SFT_지도파인튜닝/data/따라하기/lease_val.jsonl"
+ }
+}

@@ -1,6 +1,6 @@
 {
  "day69_파인튜닝_데이터셋/output/labor_train.jsonl": {
-  "md5": "bddaed39f5fd73bb4f0589de2e76b8e7",
+  "md5": "84534746ef3dab38c4e5934f2a0de76f",
   "rows": 1169,
   "target": "day70_SFT_지도파인튜닝/data/본실습/labor_train.jsonl"
  },

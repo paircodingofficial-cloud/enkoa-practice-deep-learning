@@ -1,0 +1,218 @@
+{
+ "title": "초롱이: 이 과정을 위해 만든 오리지널 캐릭터",
+ "license": "이 과정을 위해 ChatGPT 이미지로 새로 만든 오리지널 캐릭터입니다. OpenAI 이용 약관에 따라 생성 결과물의 권리는 과정 저작자에게 있으며, 이 과정의 실습에는 자유롭게 사용할 수 있습니다.",
+ "attribution": "엔코아 AI 캠퍼스 실습용 오리지널 캐릭터(ChatGPT 이미지로 생성)",
+ "reference": "chorong_reference.png",
+ "images": [
+  {
+   "file": "chorong_01_front.jpg",
+   "prompt_id": 1,
+   "view": "front"
+  },
+  {
+   "file": "chorong_02_threequarter.jpg",
+   "prompt_id": 2,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_03_side.jpg",
+   "prompt_id": 3,
+   "view": "side"
+  },
+  {
+   "file": "chorong_04_back.jpg",
+   "prompt_id": 4,
+   "view": "back"
+  },
+  {
+   "file": "chorong_05_threequarter.jpg",
+   "prompt_id": 5,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_06_front.jpg",
+   "prompt_id": 6,
+   "view": "front"
+  },
+  {
+   "file": "chorong_07_threequarter.jpg",
+   "prompt_id": 7,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_08_front.jpg",
+   "prompt_id": 8,
+   "view": "front"
+  },
+  {
+   "file": "chorong_09_front.jpg",
+   "prompt_id": 9,
+   "view": "front"
+  },
+  {
+   "file": "chorong_10_front.jpg",
+   "prompt_id": 10,
+   "view": "front"
+  },
+  {
+   "file": "chorong_11_threequarter.jpg",
+   "prompt_id": 11,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_12_front.jpg",
+   "prompt_id": 12,
+   "view": "front"
+  },
+  {
+   "file": "chorong_13_threequarter.jpg",
+   "prompt_id": 13,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_14_front.jpg",
+   "prompt_id": 14,
+   "view": "front"
+  },
+  {
+   "file": "chorong_15_front.jpg",
+   "prompt_id": 15,
+   "view": "front"
+  },
+  {
+   "file": "chorong_16_threequarter.jpg",
+   "prompt_id": 16,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_17_side.jpg",
+   "prompt_id": 17,
+   "view": "side"
+  },
+  {
+   "file": "chorong_18_back.jpg",
+   "prompt_id": 18,
+   "view": "back"
+  },
+  {
+   "file": "chorong_19_threequarter.jpg",
+   "prompt_id": 19,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_20_front.jpg",
+   "prompt_id": 20,
+   "view": "front"
+  },
+  {
+   "file": "chorong_21_threequarter.jpg",
+   "prompt_id": 21,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_22_side.jpg",
+   "prompt_id": 22,
+   "view": "side"
+  },
+  {
+   "file": "chorong_23_back.jpg",
+   "prompt_id": 23,
+   "view": "back"
+  },
+  {
+   "file": "chorong_24_front.jpg",
+   "prompt_id": 24,
+   "view": "front"
+  },
+  {
+   "file": "chorong_25_threequarter.jpg",
+   "prompt_id": 25,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_26_front.jpg",
+   "prompt_id": 26,
+   "view": "front"
+  },
+  {
+   "file": "chorong_27_threequarter.jpg",
+   "prompt_id": 27,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_28_front.jpg",
+   "prompt_id": 28,
+   "view": "front"
+  },
+  {
+   "file": "chorong_29_side.jpg",
+   "prompt_id": 29,
+   "view": "side"
+  },
+  {
+   "file": "chorong_30_threequarter.jpg",
+   "prompt_id": 30,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_31_front.jpg",
+   "prompt_id": 31,
+   "view": "front"
+  },
+  {
+   "file": "chorong_32_threequarter.jpg",
+   "prompt_id": 32,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_33_front.jpg",
+   "prompt_id": 33,
+   "view": "front"
+  },
+  {
+   "file": "chorong_34_front.jpg",
+   "prompt_id": 34,
+   "view": "front"
+  },
+  {
+   "file": "chorong_35_threequarter.jpg",
+   "prompt_id": 35,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_36_front.jpg",
+   "prompt_id": 36,
+   "view": "front"
+  },
+  {
+   "file": "chorong_37_side.jpg",
+   "prompt_id": 37,
+   "view": "side"
+  },
+  {
+   "file": "chorong_38_front.jpg",
+   "prompt_id": 38,
+   "view": "front"
+  },
+  {
+   "file": "chorong_39_front.jpg",
+   "prompt_id": 39,
+   "view": "front"
+  },
+  {
+   "file": "chorong_40_front.jpg",
+   "prompt_id": 40,
+   "view": "front"
+  },
+  {
+   "file": "chorong_41_threequarter.jpg",
+   "prompt_id": 41,
+   "view": "threequarter"
+  },
+  {
+   "file": "chorong_42_front.jpg",
+   "prompt_id": 42,
+   "view": "front"
+  }
+ ]
+}

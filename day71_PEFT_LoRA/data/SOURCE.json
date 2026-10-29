@@ -1,0 +1,67 @@
+{
+ "day70_SFT_지도파인튜닝/data/본실습/labor_train.jsonl": {
+  "md5": "84534746ef3dab38c4e5934f2a0de76f",
+  "lines": 1169,
+  "target": "day71_PEFT_LoRA/data/본실습/labor_train.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/본실습/labor_val.jsonl": {
+  "md5": "e6ed5e14e43a603541de8ab45c433cb3",
+  "lines": 315,
+  "target": "day71_PEFT_LoRA/data/본실습/labor_val.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/본실습/labor_eval.jsonl": {
+  "md5": "0141ba95c6f3ed8a046403a162944984",
+  "lines": 49,
+  "target": "day71_PEFT_LoRA/data/본실습/labor_eval.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/본실습/out_of_scope_eval.jsonl": {
+  "md5": "3c6f6a852b908e8b2b33e5d6fd6bf471",
+  "lines": 12,
+  "target": "day71_PEFT_LoRA/data/본실습/out_of_scope_eval.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/본실습/general_questions.jsonl": {
+  "md5": "d7f51bfebd010c759775cea9b03bbc71",
+  "lines": 30,
+  "target": "day71_PEFT_LoRA/data/본실습/general_questions.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/본실습/general_texts.json": {
+  "md5": "a975c6f3f5941a9648b06ce0a166d249",
+  "lines": 102,
+  "target": "day71_PEFT_LoRA/data/본실습/general_texts.json"
+ },
+ "day70_SFT_지도파인튜닝/data/따라하기/lease_train.jsonl": {
+  "md5": "9968d9f68dfc752d6203525d6e68763b",
+  "lines": 137,
+  "target": "day71_PEFT_LoRA/data/따라하기/lease_train.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/따라하기/lease_val.jsonl": {
+  "md5": "0e98154e4c889ee8b10d48a9de3b67ee",
+  "lines": 37,
+  "target": "day71_PEFT_LoRA/data/따라하기/lease_val.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/따라하기/lease_eval.jsonl": {
+  "md5": "22976bed08278f041fbcc0eeb12472a8",
+  "lines": 12,
+  "target": "day71_PEFT_LoRA/data/따라하기/lease_eval.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/과제/commerce_train.jsonl": {
+  "md5": "20c1fa4cbee66c1e56d5016004912971",
+  "lines": 135,
+  "target": "day71_PEFT_LoRA/data/과제/commerce_train.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/과제/commerce_val.jsonl": {
+  "md5": "0a8557a768b757d9b8f9de84bc59412f",
+  "lines": 34,
+  "target": "day71_PEFT_LoRA/data/과제/commerce_val.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/과제/commerce_eval.jsonl": {
+  "md5": "06d29619c5655758f8fe4fcc662f7491",
+  "lines": 20,
+  "target": "day71_PEFT_LoRA/data/과제/commerce_eval.jsonl"
+ },
+ "day70_SFT_지도파인튜닝/data/과제/commerce_out_of_scope_eval.jsonl": {
+  "md5": "f09f0cfa48d3240de45fc024dfa818e3",
+  "lines": 7,
+  "target": "day71_PEFT_LoRA/data/과제/commerce_out_of_scope_eval.jsonl"
+ }
+}

@@ -55,6 +55,13 @@ dependencies = [
     #   deepeval 은 Jev 를 부를 때 typesafe-sdk 를 그제야 불러온다(import 만으로는 빠진 것이 드러나지 않는다)
     "deepeval>=4.2.9",
     "typesafe-sdk>=0.7.1",
+    # day71~: LoRA 어댑터 학습·불러오기·병합(LoraConfig, get_peft_model, PeftModel, merge_and_unload)
+    "peft>=0.19.1,<0.20",
+    # day71 부록: 이미지 생성 모델 FLUX.2 [klein] LoRA(Flux2KleinPipeline)
+    #   0.40 부터 huggingface-hub>=1.23 와 click>=8.4.2 를 요구해 deepeval(click<8.4)과 함께 설치되지 않는다
+    "diffusers>=0.39,<0.40",
+    # day71 부록: 학습 그림을 열고 크기를 맞춘다(PIL.Image 를 직접 import 하므로 적어 둔다)
+    "pillow>=11",
 ]
 
 [tool.uv]

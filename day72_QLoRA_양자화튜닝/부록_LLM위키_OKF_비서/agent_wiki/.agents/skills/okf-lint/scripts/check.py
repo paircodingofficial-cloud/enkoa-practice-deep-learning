@@ -4,9 +4,10 @@
 검사: 적합성(frontmatter, type, index.md, log.md 날짜 제목), 끊긴 링크, 만료(stale_after), 없는 원문(raw://)
 """
 import re
+from datetime import date
 from pathlib import Path
 
-TODAY = "2026-11-02"  # 샘플 위키의 '오늘'
+TODAY = date.today().isoformat()  # 실행하는 날의 날짜(YYYY-MM-DD). 만료 판정의 기준
 work = Path.cwd()
 problems = []
 

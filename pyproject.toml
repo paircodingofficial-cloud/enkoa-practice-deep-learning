@@ -56,6 +56,8 @@ dependencies = [
     "deepeval>=4.2.9",
     # day72 부록: Jev 1.14 이미지 입력(Box 질문, 이미지 헤더)은 0.7.5 부터 된다
     "typesafe-sdk>=0.7.5",
+    # day72 부록 LLM 위키 02: Jev 를 LangChain 에서 부른다(TypeSafeClassifier, Choice)
+    "langchain-typesafe>=0.0.1a3",
     # day71~: LoRA 어댑터 학습·불러오기·병합(LoraConfig, get_peft_model, PeftModel, merge_and_unload)
     "peft>=0.19.1,<0.20",
     # day71 부록: 이미지 생성 모델 FLUX.2 [klein] LoRA(Flux2KleinPipeline)

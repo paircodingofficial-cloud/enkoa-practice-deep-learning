@@ -35,7 +35,14 @@ cd /workspace && { [ -d enkoa-practice-deep-learning ] || git clone https://gith
 4. Jupyter 커널: `.venv` 를 Jupyter 커널 **venv** 로 등록합니다.
 5. VS Code 확장: VS Code 터미널에서 실행했다면 Python·Jupyter·Code Class Live Sharing 확장을 파드에 설치합니다.
 
-이 도우미는 RunPod(리눅스) 전용입니다. 내 PC(Windows·macOS)에서 실행하면 아무것도 하지 않고 끝나니, 내 PC에서는 `git pull` 과 `uv sync` 를 직접 실행합니다.
+내 PC(Windows·macOS)에서도 저장소 폴더에서 `uv run 업데이트.py` 를 실행하면 1·2단계(최신 자료 받기, 패키지 설치)를 합니다. 3~5단계는 RunPod 에서만 하고 내 PC에서는 건너뜁니다. Windows 에서 `uv sync` 가 실패하면 열려 있는 노트북과 VS Code 를 닫고 다시 실행합니다.
+
+예전에 받은 저장소에서 "이 도우미는 RunPod(리눅스)에서만 실행합니다"가 나오면, 저장소 폴더에서 아래 두 줄로 새 도우미를 한 번 받은 뒤 `uv run 업데이트.py` 를 다시 실행합니다.
+
+```bash
+git fetch origin
+git checkout origin/main -- 업데이트.py
+```
 
 `git`·`uv` 가 없다는 오류가 나면 먼저 설치합니다.
 
@@ -56,5 +63,5 @@ curl -LsSf https://astral.sh/uv/install.sh | sh && source $HOME/.local/bin/env
 > ### 실습 결과는 끝내기 전에 **내려받으세요.**
 
 - 파드를 새로 켜면 위의 한 줄 명령을 다시 실행합니다.
-- 새 자료가 올라오면 RunPod 의 저장소 폴더에서 `uv run 업데이트.py` 를 다시 실행합니다(맥·윈도우에서는 실행되지 않습니다). `git pull` 이 충돌로 막혔을 때도 이 명령으로 풀립니다(바뀐 내용은 `.백업/` 에 보관됩니다).
+- 새 자료가 올라오면 저장소 폴더에서 `uv run 업데이트.py` 를 다시 실행합니다(내 PC에서도 같습니다). `git pull` 이 충돌로 막혔을 때도 이 명령으로 풀립니다(바뀐 내용은 `.백업/` 에 보관됩니다).
 - 실습은 원본 대신 `내작업/` 폴더에 복사해서 합니다. `내작업/` 안의 파일은 깃이 무시합니다.

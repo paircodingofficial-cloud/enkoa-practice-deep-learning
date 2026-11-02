@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """실습자료 업데이트와 실습 환경 준비 도우미.
 
-RunPod(리눅스) 전용입니다. 맥·윈도우에서는 아무것도 하지 않고 끝납니다.
 저장소 폴더에서 아래 한 줄을 실행하면 다음을 차례로 합니다.
+1, 2단계는 RunPod(리눅스), Windows, macOS 모두에서 하고, 3, 4단계는 RunPod(리눅스)에서만 합니다.
 
     uv run 업데이트.py
 
@@ -131,14 +131,38 @@ def install_vscode_extensions() -> None:
 
 
 def setup_environment() -> None:
-    """uv sync 로 패키지를 맞추고, 리눅스라면 글꼴과 커널까지 준비한다."""
+    """uv sync 로 패키지를 맞추고, 리눅스(RunPod)라면 글꼴, 커널, VS Code 확장까지 준비한다."""
     print("\n파이썬 환경을 맞추는 중(uv sync)...")
     if not run(["uv", "sync"]):
-        fail("uv sync 가 실패했습니다.", "위 메시지를 확인하고, 인터넷 연결을 확인해 주세요.")
+        hint = "위 메시지를 확인하고, 인터넷 연결을 확인해 주세요."
+        if platform.system() == "Windows":
+            # Windows 는 실행 중인 노트북 커널이 .venv 파일을 잠가 덮어쓰지 못하게 한다
+            hint += " 열려 있는 노트북과 VS Code 를 닫고, 이 터미널에서 uv sync 를 직접 실행해 주세요."
+        fail("uv sync 가 실패했습니다.", hint)
 
+    # 글꼴 복사, 커널 등록, VS Code 확장 설치는 RunPod 파드(리눅스)에서만 필요하다
+    if platform.system() != "Linux":
+        print(f"\n지금 컴퓨터는 {system_name()} 입니다. 글꼴 복사, Jupyter 커널 등록, VS Code 확장 설치는 RunPod 에서만 하므로 건너뜁니다.")
+        print("   VS Code 에서는 커널로 저장소의 .venv 를 고르세요.")
+        return
     setup_linux_fonts()
     register_kernel()
     install_vscode_extensions()
+
+
+def system_name() -> str:
+    """화면에 보여 줄 운영체제 이름."""
+    return {"Darwin": "macOS"}.get(platform.system(), platform.system())
+
+
+def rerun_self() -> None:
+    """받아 온 새 판의 이 파일로 처음부터 다시 실행한다."""
+    script = str(Path(__file__).resolve())
+    if platform.system() == "Windows":
+        # Windows 의 os.execv 는 새 프로세스를 띄우고 지금 프로세스를 끝내 버려,
+        # 터미널이 먼저 입력을 받는 상태가 되고 새 판의 출력이 뒤섞인다. 끝날 때까지 기다린다
+        sys.exit(subprocess.run([sys.executable, script]).returncode)
+    os.execv(sys.executable, [sys.executable, script])
 
 
 def main() -> None:
@@ -147,18 +171,14 @@ def main() -> None:
     print("실습자료 업데이트와 실습 환경 준비 도우미")
     print("─" * 46)
 
-    # RunPod 파드는 리눅스다. 맥·윈도우에서는 git reset 이나 uv sync 를 하지 않고 바로 끝낸다
-    if platform.system() != "Linux":
-        name = {"Darwin": "macOS"}.get(platform.system(), platform.system())
-        print(f"\n이 도우미는 RunPod(리눅스)에서만 실행합니다. 지금 컴퓨터는 {name} 입니다.")
-        print("   내 PC 에서는 저장소 폴더에서 git pull 과 uv sync 를 직접 실행하세요.")
-        sys.exit(1)
-
     # 저장소 폴더 안에서 실행됐는지 확인 (더블클릭 실행 대비)
     here = Path(__file__).resolve().parent
     os.chdir(here)
     # 받기 전 이 파일의 내용. 업데이트로 이 파일이 바뀌면 새 판으로 다시 실행한다
     script_before = Path(__file__).read_bytes()
+
+    if shutil.which("git") is None:
+        fail("git 이 설치되어 있지 않습니다.", "https://git-scm.com 에서 git 을 설치한 뒤 터미널을 새로 열고 다시 실행하세요.")
 
     if git("rev-parse", "--is-inside-work-tree").returncode != 0:
         fail(
@@ -166,7 +186,10 @@ def main() -> None:
             "git clone 으로 내려받은 'enkoa-practice' 폴더 안에서 실행하세요.",
         )
 
-    branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip() or "main"
+    branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
+    # 특정 커밋을 체크아웃한 상태(detached HEAD)면 이름이 HEAD 로 나온다. 배포 브랜치 main 으로 맞춘다
+    if branch in ["", "HEAD"]:
+        branch = "main"
 
     print("최신 정보를 확인하는 중...")
     fetched = git("fetch", "origin")
@@ -177,14 +200,28 @@ def main() -> None:
     if git("rev-parse", "--verify", remote).returncode != 0:
         fail(f"서버에 '{branch}' 브랜치가 없습니다.")
 
-    # 원격과 다른 배포 파일을 모두 찾는다 (수정·staged·직접 커밋한 것까지 포함)
+    # 내가 바꾼 배포 파일만 찾는다. 서버에서만 바뀐 파일은 되돌려도 잃을 것이 없어 빼고,
+    # 커밋하지 않은 수정(staged 포함)과 서버와 갈라진 뒤 직접 커밋한 수정을 합친다
     # -z 로 받아야 한글 파일명이 "\353\263\200" 처럼 escape 되지 않는다
-    diff = git("diff", "--name-only", "-z", remote)
-    changed = [name for name in diff.stdout.split("\0") if name.strip()]
+    changed = []
+    for diff_args in [["HEAD"], [f"{remote}...HEAD"]]:
+        diff = git("diff", "--name-only", "-z", *diff_args)
+        for name in diff.stdout.split("\0"):
+            if not name.strip() or name in changed:
+                continue
+            # 서버 판과 내용이 같으면(예: 서버 판을 이미 받아 둔 파일) 잃을 것이 없다
+            if git("diff", "--quiet", remote, "--", name).returncode == 0:
+                continue
+            changed.append(name)
 
     if changed:
-        stamp = datetime.now().strftime("%m%d_%H%M")
+        # 같은 시각에 다시 실행해도 앞 백업을 덮지 않게 초까지 넣고, 그래도 겹치면 번호를 붙인다
+        stamp = datetime.now().strftime("%m%d_%H%M%S")
         dest = BACKUP_ROOT / stamp
+        number = 2
+        while dest.exists():
+            dest = BACKUP_ROOT / f"{stamp}_{number}"
+            number += 1
         print(f"\n배포 원본이 바뀐 파일 {len(changed)}개를 '{dest}' 에 보관합니다:")
         saved, missing = 0, []
         for rel in changed:
@@ -221,7 +258,7 @@ def main() -> None:
     # 지금 돌고 있는 것은 받기 전의 이 파일이다. 새 판이 왔으면 그 판으로 처음부터 다시 실행한다
     if Path(__file__).read_bytes() != script_before:
         print("\n업데이트 도우미가 새 판으로 바뀌어 다시 실행합니다.\n")
-        os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve())])
+        rerun_self()
 
     setup_environment()
 

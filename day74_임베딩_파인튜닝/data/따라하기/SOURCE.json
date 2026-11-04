@@ -1,0 +1,998 @@
+{
+ "dataset": "day74 함께 따라하기 의학 검색 데이터(med_corpus, med_train, med_eval)",
+ "license_note": "med_corpus.jsonl 의 text 는 한국어 위키백과 문서를 가공한 것으로 CC BY-SA 4.0 을 따릅니다. 각 문서의 원문 주소와 판 번호(revid)는 documents 에 있습니다. 원문의 첫 문단과 증상 절(증상, 징후 및 증상, 임상 양상 등)만 골라 이어 붙였고, 괄호 속 외국어·한자 병기와 각주 표시를 지웠으며, 치료·진단·역학·어원처럼 증상과 거리가 먼 문장과 번역이 어색한 문장을 뺀 뒤 700자 안쪽에서 문장 끝으로 잘랐습니다(유니코드 NFC). 가공한 text 도 같은 CC BY-SA 4.0 으로 배포합니다. 질의(anchor, query)는 교재 제작자가 직접 쓴 것으로 위키백과 원문이 아닙니다. 이 데이터는 검색 모델 학습 실습용이며 의학적 진단이나 조언이 아닙니다.",
+ "license": "CC BY-SA 4.0 (한국어 위키백과)",
+ "processing": "첫 문단(380자 안쪽) + 증상 절, 문장 단위로 700자 안쪽 자르기, 괄호 속 외국어 병기·각주 제거, NFC 정규화",
+ "documents": [
+  {
+   "doc_id": "med01",
+   "requested_title": "역류성 식도염",
+   "title": "위 식도 역류병",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%9C%84_%EC%8B%9D%EB%8F%84_%EC%97%AD%EB%A5%98%EB%B3%91",
+   "revid": 40353657,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med02",
+   "requested_title": "소화성 궤양",
+   "title": "소화성궤양",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%86%8C%ED%99%94%EC%84%B1%EA%B6%A4%EC%96%91",
+   "revid": 42091925,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med03",
+   "requested_title": "기능성 소화불량",
+   "title": "소화불량",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%86%8C%ED%99%94%EB%B6%88%EB%9F%89",
+   "revid": 40844432,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med04",
+   "requested_title": "과민대장증후군",
+   "title": "과민 대장 증후군",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B3%BC%EB%AF%BC_%EB%8C%80%EC%9E%A5_%EC%A6%9D%ED%9B%84%EA%B5%B0",
+   "revid": 40959315,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med05",
+   "requested_title": "충수염",
+   "title": "충수염",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%B6%A9%EC%88%98%EC%97%BC",
+   "revid": 40842007,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med06",
+   "requested_title": "게실염",
+   "title": "곁주머니염",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B3%81%EC%A3%BC%EB%A8%B8%EB%8B%88%EC%97%BC",
+   "revid": 41122892,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med07",
+   "requested_title": "담낭염",
+   "title": "쓸개염",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%93%B8%EA%B0%9C%EC%97%BC",
+   "revid": 39244008,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med08",
+   "requested_title": "담석증",
+   "title": "담석",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EB%8B%B4%EC%84%9D",
+   "revid": 41508396,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med09",
+   "requested_title": "췌장염",
+   "title": "췌장염",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%B7%8C%EC%9E%A5%EC%97%BC",
+   "revid": 39244020,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med10",
+   "requested_title": "위장염",
+   "title": "장염",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%9E%A5%EC%97%BC",
+   "revid": 42447352,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med11",
+   "requested_title": "식중독",
+   "title": "식중독",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%8B%9D%EC%A4%91%EB%8F%85",
+   "revid": 42605464,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med12",
+   "requested_title": "크론병",
+   "title": "크론병",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%ED%81%AC%EB%A1%A0%EB%B3%91",
+   "revid": 41686018,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med13",
+   "requested_title": "치핵",
+   "title": "치질",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%B9%98%EC%A7%88",
+   "revid": 41279061,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med14",
+   "requested_title": "입냄새",
+   "title": "입 냄새",
+   "system": "소화기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%9E%85_%EB%83%84%EC%83%88",
+   "revid": 40460820,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med15",
+   "requested_title": "류마티스 관절염",
+   "title": "류마티스 관절염",
+   "system": "근골격",
+   "url": "https://ko.wikipedia.org/wiki/%EB%A5%98%EB%A7%88%ED%8B%B0%EC%8A%A4_%EA%B4%80%EC%A0%88%EC%97%BC",
+   "revid": 41496298,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med16",
+   "requested_title": "통풍",
+   "title": "통풍",
+   "system": "근골격",
+   "url": "https://ko.wikipedia.org/wiki/%ED%86%B5%ED%92%8D",
+   "revid": 42712608,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med17",
+   "requested_title": "족저근막염",
+   "title": "족저 근막염",
+   "system": "근골격",
+   "url": "https://ko.wikipedia.org/wiki/%EC%A1%B1%EC%A0%80_%EA%B7%BC%EB%A7%89%EC%97%BC",
+   "revid": 42407062,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med18",
+   "requested_title": "손목굴 증후군",
+   "title": "수근관 증후군",
+   "system": "근골격",
+   "url": "https://ko.wikipedia.org/wiki/%EC%88%98%EA%B7%BC%EA%B4%80_%EC%A6%9D%ED%9B%84%EA%B5%B0",
+   "revid": 41604579,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med19",
+   "requested_title": "추간판 탈출증",
+   "title": "추간판 탈출증",
+   "system": "근골격",
+   "url": "https://ko.wikipedia.org/wiki/%EC%B6%94%EA%B0%84%ED%8C%90_%ED%83%88%EC%B6%9C%EC%A6%9D",
+   "revid": 42538811,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med20",
+   "requested_title": "테니스 엘보",
+   "title": "테니스 엘보",
+   "system": "근골격",
+   "url": "https://ko.wikipedia.org/wiki/%ED%85%8C%EB%8B%88%EC%8A%A4_%EC%97%98%EB%B3%B4",
+   "revid": 41517302,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med21",
+   "requested_title": "골다공증",
+   "title": "골다공증",
+   "system": "근골격",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B3%A8%EB%8B%A4%EA%B3%B5%EC%A6%9D",
+   "revid": 42152182,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med22",
+   "requested_title": "염좌",
+   "title": "염좌",
+   "system": "근골격",
+   "url": "https://ko.wikipedia.org/wiki/%EC%97%BC%EC%A2%8C",
+   "revid": 39468258,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med23",
+   "requested_title": "섬유근육통",
+   "title": "섬유근육통",
+   "system": "근골격",
+   "url": "https://ko.wikipedia.org/wiki/%EC%84%AC%EC%9C%A0%EA%B7%BC%EC%9C%A1%ED%86%B5",
+   "revid": 42190268,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med24",
+   "requested_title": "편두통",
+   "title": "편두통",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%ED%8E%B8%EB%91%90%ED%86%B5",
+   "revid": 42088695,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med25",
+   "requested_title": "긴장성 두통",
+   "title": "긴장성 두통",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B8%B4%EC%9E%A5%EC%84%B1_%EB%91%90%ED%86%B5",
+   "revid": 41978640,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med26",
+   "requested_title": "군발두통",
+   "title": "군발 두통",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B5%B0%EB%B0%9C_%EB%91%90%ED%86%B5",
+   "revid": 41223892,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med27",
+   "requested_title": "삼차신경통",
+   "title": "삼차신경통",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EC%82%BC%EC%B0%A8%EC%8B%A0%EA%B2%BD%ED%86%B5",
+   "revid": 41152955,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med28",
+   "requested_title": "벨 마비",
+   "title": "벨 마비",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EB%B2%A8_%EB%A7%88%EB%B9%84",
+   "revid": 42569416,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med29",
+   "requested_title": "뇌졸중",
+   "title": "뇌졸중",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EB%87%8C%EC%A1%B8%EC%A4%91",
+   "revid": 42088691,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med30",
+   "requested_title": "파킨슨병",
+   "title": "파킨슨병",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%ED%8C%8C%ED%82%A8%EC%8A%A8%EB%B3%91",
+   "revid": 41779722,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med31",
+   "requested_title": "알츠하이머병",
+   "title": "알츠하이머병",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EC%95%8C%EC%B8%A0%ED%95%98%EC%9D%B4%EB%A8%B8%EB%B3%91",
+   "revid": 42250105,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med32",
+   "requested_title": "뇌전증",
+   "title": "뇌전증",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EB%87%8C%EC%A0%84%EC%A6%9D",
+   "revid": 42721224,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med33",
+   "requested_title": "이석증",
+   "title": "양성자세현훈",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EC%96%91%EC%84%B1%EC%9E%90%EC%84%B8%ED%98%84%ED%9B%88",
+   "revid": 42700832,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med34",
+   "requested_title": "기면증",
+   "title": "기면증",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B8%B0%EB%A9%B4%EC%A6%9D",
+   "revid": 39056479,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med35",
+   "requested_title": "불면증",
+   "title": "불면증",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EB%B6%88%EB%A9%B4%EC%A6%9D",
+   "revid": 42502989,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med36",
+   "requested_title": "수면무호흡증",
+   "title": "수면 무호흡증",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EC%88%98%EB%A9%B4_%EB%AC%B4%ED%98%B8%ED%9D%A1%EC%A6%9D",
+   "revid": 41336699,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med37",
+   "requested_title": "코골이",
+   "title": "코골이",
+   "system": "신경",
+   "url": "https://ko.wikipedia.org/wiki/%EC%BD%94%EA%B3%A8%EC%9D%B4",
+   "revid": 41097787,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med38",
+   "requested_title": "아토피 피부염",
+   "title": "아토피 피부염",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EC%95%84%ED%86%A0%ED%94%BC_%ED%94%BC%EB%B6%80%EC%97%BC",
+   "revid": 41508664,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med39",
+   "requested_title": "두드러기",
+   "title": "두드러기",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EB%91%90%EB%93%9C%EB%9F%AC%EA%B8%B0",
+   "revid": 42009616,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med40",
+   "requested_title": "대상포진",
+   "title": "대상포진",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EB%8C%80%EC%83%81%ED%8F%AC%EC%A7%84",
+   "revid": 42090822,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med41",
+   "requested_title": "수두",
+   "title": "수두",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EC%88%98%EB%91%90",
+   "revid": 42153914,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med42",
+   "requested_title": "단순포진",
+   "title": "단순포진",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EB%8B%A8%EC%88%9C%ED%8F%AC%EC%A7%84",
+   "revid": 42090254,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med43",
+   "requested_title": "무좀",
+   "title": "무좀",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EB%AC%B4%EC%A2%80",
+   "revid": 41369848,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med44",
+   "requested_title": "지루성 피부염",
+   "title": "지루성 피부염",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EC%A7%80%EB%A3%A8%EC%84%B1_%ED%94%BC%EB%B6%80%EC%97%BC",
+   "revid": 41153143,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med45",
+   "requested_title": "접촉피부염",
+   "title": "접촉 피부염",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EC%A0%91%EC%B4%89_%ED%94%BC%EB%B6%80%EC%97%BC",
+   "revid": 41508394,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med46",
+   "requested_title": "여드름",
+   "title": "여드름",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EC%97%AC%EB%93%9C%EB%A6%84",
+   "revid": 40842063,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med47",
+   "requested_title": "백반증",
+   "title": "백반증",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EB%B0%B1%EB%B0%98%EC%A6%9D",
+   "revid": 41515158,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med48",
+   "requested_title": "내성발톱",
+   "title": "내향성 발톱",
+   "system": "피부",
+   "url": "https://ko.wikipedia.org/wiki/%EB%82%B4%ED%96%A5%EC%84%B1_%EB%B0%9C%ED%86%B1",
+   "revid": 41522048,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med49",
+   "requested_title": "천식",
+   "title": "천식",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%B2%9C%EC%8B%9D",
+   "revid": 42124663,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med50",
+   "requested_title": "만성 폐쇄성 폐질환",
+   "title": "만성 폐쇄 폐 질환",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%EB%A7%8C%EC%84%B1_%ED%8F%90%EC%87%84_%ED%8F%90_%EC%A7%88%ED%99%98",
+   "revid": 42567891,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med51",
+   "requested_title": "급성 기관지염",
+   "title": "급성 기관지염",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B8%89%EC%84%B1_%EA%B8%B0%EA%B4%80%EC%A7%80%EC%97%BC",
+   "revid": 42565026,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med52",
+   "requested_title": "인플루엔자",
+   "title": "인플루엔자",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%9D%B8%ED%94%8C%EB%A3%A8%EC%97%94%EC%9E%90",
+   "revid": 42150872,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med53",
+   "requested_title": "감기",
+   "title": "감기",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B0%90%EA%B8%B0",
+   "revid": 42152947,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med54",
+   "requested_title": "폐렴",
+   "title": "폐렴",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%ED%8F%90%EB%A0%B4",
+   "revid": 42087734,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med55",
+   "requested_title": "결핵",
+   "title": "결핵",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B2%B0%ED%95%B5",
+   "revid": 42155040,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med56",
+   "requested_title": "백일해",
+   "title": "백일해",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%EB%B0%B1%EC%9D%BC%ED%95%B4",
+   "revid": 42088411,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med57",
+   "requested_title": "알레르기 비염",
+   "title": "알레르기 비염",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%95%8C%EB%A0%88%EB%A5%B4%EA%B8%B0_%EB%B9%84%EC%97%BC",
+   "revid": 41963730,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med58",
+   "requested_title": "부비동염",
+   "title": "부비동염",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%EB%B6%80%EB%B9%84%EB%8F%99%EC%97%BC",
+   "revid": 41139164,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med59",
+   "requested_title": "편도염",
+   "title": "편도염",
+   "system": "호흡기",
+   "url": "https://ko.wikipedia.org/wiki/%ED%8E%B8%EB%8F%84%EC%97%BC",
+   "revid": 41660795,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med60",
+   "requested_title": "방광염",
+   "title": "요로감염증",
+   "system": "비뇨기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%9A%94%EB%A1%9C%EA%B0%90%EC%97%BC%EC%A6%9D",
+   "revid": 42678323,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med61",
+   "requested_title": "요로결석",
+   "title": "신장결석",
+   "system": "비뇨기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%8B%A0%EC%9E%A5%EA%B2%B0%EC%84%9D",
+   "revid": 39250521,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med62",
+   "requested_title": "전립선염",
+   "title": "전립선염",
+   "system": "비뇨기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%A0%84%EB%A6%BD%EC%84%A0%EC%97%BC",
+   "revid": 41151860,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med63",
+   "requested_title": "전립선비대증",
+   "title": "전립선비대증",
+   "system": "비뇨기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%A0%84%EB%A6%BD%EC%84%A0%EB%B9%84%EB%8C%80%EC%A6%9D",
+   "revid": 42030761,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med64",
+   "requested_title": "과민성 방광",
+   "title": "과민성 방광",
+   "system": "비뇨기",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B3%BC%EB%AF%BC%EC%84%B1_%EB%B0%A9%EA%B4%91",
+   "revid": 39240311,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med65",
+   "requested_title": "결막염",
+   "title": "결막염",
+   "system": "눈·귀",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B2%B0%EB%A7%89%EC%97%BC",
+   "revid": 41663713,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med66",
+   "requested_title": "다래끼",
+   "title": "다래끼",
+   "system": "눈·귀",
+   "url": "https://ko.wikipedia.org/wiki/%EB%8B%A4%EB%9E%98%EB%81%BC",
+   "revid": 41397614,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med67",
+   "requested_title": "녹내장",
+   "title": "녹내장",
+   "system": "눈·귀",
+   "url": "https://ko.wikipedia.org/wiki/%EB%85%B9%EB%82%B4%EC%9E%A5",
+   "revid": 42171115,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med68",
+   "requested_title": "백내장",
+   "title": "백내장",
+   "system": "눈·귀",
+   "url": "https://ko.wikipedia.org/wiki/%EB%B0%B1%EB%82%B4%EC%9E%A5",
+   "revid": 42649973,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med69",
+   "requested_title": "비문증",
+   "title": "비문증",
+   "system": "눈·귀",
+   "url": "https://ko.wikipedia.org/wiki/%EB%B9%84%EB%AC%B8%EC%A6%9D",
+   "revid": 41169003,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med70",
+   "requested_title": "안구건조증",
+   "title": "안구건조증",
+   "system": "눈·귀",
+   "url": "https://ko.wikipedia.org/wiki/%EC%95%88%EA%B5%AC%EA%B1%B4%EC%A1%B0%EC%A6%9D",
+   "revid": 42153467,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med71",
+   "requested_title": "노안",
+   "title": "노안",
+   "system": "눈·귀",
+   "url": "https://ko.wikipedia.org/wiki/%EB%85%B8%EC%95%88",
+   "revid": 39601733,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med72",
+   "requested_title": "결막하출혈",
+   "title": "결막하 출혈",
+   "system": "눈·귀",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B2%B0%EB%A7%89%ED%95%98_%EC%B6%9C%ED%98%88",
+   "revid": 41692838,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med73",
+   "requested_title": "돌발성 난청",
+   "title": "감각 신경성 난청",
+   "system": "눈·귀",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B0%90%EA%B0%81_%EC%8B%A0%EA%B2%BD%EC%84%B1_%EB%82%9C%EC%B2%AD",
+   "revid": 41162982,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med74",
+   "requested_title": "당뇨병",
+   "title": "당뇨병",
+   "system": "내분비·혈액",
+   "url": "https://ko.wikipedia.org/wiki/%EB%8B%B9%EB%87%A8%EB%B3%91",
+   "revid": 42425954,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med75",
+   "requested_title": "저혈당증",
+   "title": "저혈당증",
+   "system": "내분비·혈액",
+   "url": "https://ko.wikipedia.org/wiki/%EC%A0%80%ED%98%88%EB%8B%B9%EC%A6%9D",
+   "revid": 41496299,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med76",
+   "requested_title": "갑상샘 기능 항진증",
+   "title": "갑상샘 기능 항진증",
+   "system": "내분비·혈액",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B0%91%EC%83%81%EC%83%98_%EA%B8%B0%EB%8A%A5_%ED%95%AD%EC%A7%84%EC%A6%9D",
+   "revid": 40721910,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med77",
+   "requested_title": "갑상샘저하증",
+   "title": "갑상샘저하증",
+   "system": "내분비·혈액",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B0%91%EC%83%81%EC%83%98%EC%A0%80%ED%95%98%EC%A6%9D",
+   "revid": 39591615,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med78",
+   "requested_title": "철결핍성 빈혈",
+   "title": "철결핍성 빈혈",
+   "system": "내분비·혈액",
+   "url": "https://ko.wikipedia.org/wiki/%EC%B2%A0%EA%B2%B0%ED%95%8D%EC%84%B1_%EB%B9%88%ED%98%88",
+   "revid": 42143216,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med79",
+   "requested_title": "협심증",
+   "title": "협심증",
+   "system": "순환기",
+   "url": "https://ko.wikipedia.org/wiki/%ED%98%91%EC%8B%AC%EC%A6%9D",
+   "revid": 42461462,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med80",
+   "requested_title": "심근경색",
+   "title": "심근 경색",
+   "system": "순환기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%8B%AC%EA%B7%BC_%EA%B2%BD%EC%83%89",
+   "revid": 40610470,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med81",
+   "requested_title": "심방세동",
+   "title": "심방세동",
+   "system": "순환기",
+   "url": "https://ko.wikipedia.org/wiki/%EC%8B%AC%EB%B0%A9%EC%84%B8%EB%8F%99",
+   "revid": 39526330,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med82",
+   "requested_title": "기립성 저혈압",
+   "title": "기립성 저혈압",
+   "system": "순환기",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B8%B0%EB%A6%BD%EC%84%B1_%EC%A0%80%ED%98%88%EC%95%95",
+   "revid": 41149783,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med83",
+   "requested_title": "고혈압",
+   "title": "고혈압",
+   "system": "순환기",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B3%A0%ED%98%88%EC%95%95",
+   "revid": 42149744,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med84",
+   "requested_title": "레이노 현상",
+   "title": "레이노 현상",
+   "system": "순환기",
+   "url": "https://ko.wikipedia.org/wiki/%EB%A0%88%EC%9D%B4%EB%85%B8_%ED%98%84%EC%83%81",
+   "revid": 41191699,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med85",
+   "requested_title": "공황장애",
+   "title": "공황장애",
+   "system": "정신건강",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B3%B5%ED%99%A9%EC%9E%A5%EC%95%A0",
+   "revid": 42153951,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med86",
+   "requested_title": "범불안장애",
+   "title": "범불안장애",
+   "system": "정신건강",
+   "url": "https://ko.wikipedia.org/wiki/%EB%B2%94%EB%B6%88%EC%95%88%EC%9E%A5%EC%95%A0",
+   "revid": 42423886,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med87",
+   "requested_title": "주요 우울장애",
+   "title": "주요 우울 장애",
+   "system": "정신건강",
+   "url": "https://ko.wikipedia.org/wiki/%EC%A3%BC%EC%9A%94_%EC%9A%B0%EC%9A%B8_%EC%9E%A5%EC%95%A0",
+   "revid": 42004050,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med88",
+   "requested_title": "양극성 장애",
+   "title": "양극성 장애",
+   "system": "정신건강",
+   "url": "https://ko.wikipedia.org/wiki/%EC%96%91%EA%B7%B9%EC%84%B1_%EC%9E%A5%EC%95%A0",
+   "revid": 41604746,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med89",
+   "requested_title": "강박장애",
+   "title": "강박장애",
+   "system": "정신건강",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B0%95%EB%B0%95%EC%9E%A5%EC%95%A0",
+   "revid": 42158743,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med90",
+   "requested_title": "외상 후 스트레스 장애",
+   "title": "외상 후 스트레스 장애",
+   "system": "정신건강",
+   "url": "https://ko.wikipedia.org/wiki/%EC%99%B8%EC%83%81_%ED%9B%84_%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%8A%A4_%EC%9E%A5%EC%95%A0",
+   "revid": 42721453,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med91",
+   "requested_title": "계절성 정동장애",
+   "title": "계절성 정동 장애",
+   "system": "정신건강",
+   "url": "https://ko.wikipedia.org/wiki/%EA%B3%84%EC%A0%88%EC%84%B1_%EC%A0%95%EB%8F%99_%EC%9E%A5%EC%95%A0",
+   "revid": 42539492,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med92",
+   "requested_title": "열사병",
+   "title": "열사병",
+   "system": "환경·감염",
+   "url": "https://ko.wikipedia.org/wiki/%EC%97%B4%EC%82%AC%EB%B3%91",
+   "revid": 42157274,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med93",
+   "requested_title": "일사병",
+   "title": "일사병",
+   "system": "환경·감염",
+   "url": "https://ko.wikipedia.org/wiki/%EC%9D%BC%EC%82%AC%EB%B3%91",
+   "revid": 41770759,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med94",
+   "requested_title": "저체온증",
+   "title": "저체온증",
+   "system": "환경·감염",
+   "url": "https://ko.wikipedia.org/wiki/%EC%A0%80%EC%B2%B4%EC%98%A8%EC%A6%9D",
+   "revid": 42155906,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med95",
+   "requested_title": "동상",
+   "title": "동상",
+   "system": "환경·감염",
+   "url": "https://ko.wikipedia.org/wiki/%EB%8F%99%EC%83%81",
+   "revid": 42155729,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med96",
+   "requested_title": "멀미",
+   "title": "멀미",
+   "system": "환경·감염",
+   "url": "https://ko.wikipedia.org/wiki/%EB%A9%80%EB%AF%B8",
+   "revid": 42259048,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med97",
+   "requested_title": "쯔쯔가무시병",
+   "title": "쯔쯔가무시병",
+   "system": "환경·감염",
+   "url": "https://ko.wikipedia.org/wiki/%EC%AF%94%EC%AF%94%EA%B0%80%EB%AC%B4%EC%8B%9C%EB%B3%91",
+   "revid": 41151925,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med98",
+   "requested_title": "유행성 이하선염",
+   "title": "볼거리",
+   "system": "환경·감염",
+   "url": "https://ko.wikipedia.org/wiki/%EB%B3%BC%EA%B1%B0%EB%A6%AC",
+   "revid": 41488845,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  },
+  {
+   "doc_id": "med99",
+   "requested_title": "수족구병",
+   "title": "수족구병",
+   "system": "환경·감염",
+   "url": "https://ko.wikipedia.org/wiki/%EC%88%98%EC%A1%B1%EA%B5%AC%EB%B3%91",
+   "revid": 41495695,
+   "fetched": "2026-10-29",
+   "license": "CC BY-SA 4.0 (한국어 위키백과)"
+  }
+ ]
+}

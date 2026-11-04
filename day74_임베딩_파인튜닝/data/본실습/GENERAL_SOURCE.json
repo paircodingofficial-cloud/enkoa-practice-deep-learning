@@ -1,0 +1,71 @@
+{
+  "purpose": "노무 도메인 학습 전후의 일반 분야 검색 성능 변화를 확인하는 소형 묶음",
+  "evaluation_rule": "관광·상식·도서관 각각 자기 corpus에서 검색하며, 전체는 83개 질의의 순위를 합산",
+  "sources": {
+    "tour_corpus": {
+      "path": "day74_임베딩_파인튜닝/data/본실습/tour_corpus.jsonl",
+      "sha256": "d15c1e87eb2d91864e29d2d5e2677117463cbd4cef0a446a3f13ec466571c833"
+    },
+    "tour_eval": {
+      "path": "day74_임베딩_파인튜닝/data/본실습/tour_eval.jsonl",
+      "sha256": "3c9e9e256a30b9744f906718634044e86d4e1f750bbc58f323d1ca27e68449e8"
+    },
+    "common": {
+      "path": "day70_SFT_지도파인튜닝/data/본실습/general_questions.jsonl",
+      "sha256": "cf4d438787ea8a2c304c386a61f6d3507bb2f04bb09e47ef2d3cbc85a3e6e12f"
+    },
+    "library_corpus": {
+      "path": "day61_평가자동화_MLflow/data/본실습/docs.jsonl",
+      "sha256": "fc1cbad9309869782bce439e158854ef6b8ed8ee8388808c3d6a83dbb3b48301"
+    },
+    "library_eval": {
+      "path": "day61_평가자동화_MLflow/data/본실습/golden.jsonl",
+      "sha256": "33f46368bc9271f7b3d92d4fcb7b884e407e2d47662c8a6e0977210df706a711"
+    }
+  },
+  "selection": {
+    "tour": "기존 문서388개·질의43개·후보집합·행순서를 그대로 유지. ID에 tour:만 붙임.",
+    "common": "day70 question을 질의로, reference_answer를 검색 근거 문서로 변환. 생성 답변 평가는 하지 않음.",
+    "library": "day61 문서15개와 정답 문서ID가 하나인 질의10개만 사용. context와 해당 원문 일치 확인.",
+    "library_case_ids": [
+      "lib-01",
+      "lib-02",
+      "lib-03",
+      "lib-04",
+      "lib-05",
+      "lib-06",
+      "lib-07",
+      "lib-08",
+      "lib-13",
+      "lib-14"
+    ]
+  },
+  "limitations": [
+    "상식 근거는 짧아 쉬운 문제의 천장 효과가 있을 수 있음.",
+    "도서관과 운영 규정은 수업용 가상 자료이며 실제 기관 정책이 아님.",
+    "83개 소형 검색 표본으로 일반능력 전체의 변화를 단정하지 않음."
+  ],
+  "counts": {
+    "corpus": {
+      "관광": 388,
+      "상식": 30,
+      "도서관": 15
+    },
+    "eval": {
+      "관광": 43,
+      "상식": 30,
+      "도서관": 10
+    }
+  },
+  "checks": {
+    "schema": [
+      "anchor",
+      "positive",
+      "doc_id"
+    ],
+    "duplicate_eval_questions": 0,
+    "overlap_training_questions": 0,
+    "overlap_training_positives": 0,
+    "all_positives_match_corpus": true
+  }
+}

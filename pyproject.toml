@@ -11,10 +11,12 @@ dependencies = [
     "numpy>=2.3",
     "pandas>=2.3,<3",
     "matplotlib>=3.11",
-    # day65~: PyTorch. 리눅스(RunPod)는 아래 cu128 인덱스에서 CUDA 12.8 빌드를 받는다.
-    #   PyPI 기본 리눅스 휠은 더 새 CUDA 로 빌드될 수 있어, 드라이버가 CUDA 12.8 까지만 되는 파드에서 GPU 를 못 잡는다.
-    #   cu128 빌드가 나오는 마지막 줄기(2.11)에 맞춰 맥·윈도우도 같은 버전을 쓴다.
-    "torch>=2.11,<2.12",
+    # vLLM 0.27.0과 맞춘 PyTorch. Linux RunPod은 CUDA 13.0 휠을, PC는 OS별 PyPI 휠을 쓴다.
+    "torch==2.13.0+cu130 ; sys_platform == 'linux'",
+    "torch==2.13.0 ; sys_platform != 'linux'",
+    "torchvision==0.28.0+cu130 ; sys_platform == 'linux'",
+    "triton==3.7.1 ; sys_platform == 'linux'",
+    "vllm==0.27.0 ; sys_platform == 'linux' and platform_machine == 'x86_64'",
     # day65~: 학습용과 테스트용 나누기(train_test_split, stratify)
     "scikit-learn>=1.7",
     # day66~: 학습 코드 정리(LightningModule, Trainer, 조기 종료 콜백)
@@ -73,9 +75,10 @@ dependencies = [
 package = false
 
 [tool.uv.sources]
-torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux'" }]
+torch = [{ index = "pytorch-cu130", marker = "sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cu130", marker = "sys_platform == 'linux'" }]
 
 [[tool.uv.index]]
-name = "pytorch-cu128"
-url = "https://download.pytorch.org/whl/cu128"
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
 explicit = true

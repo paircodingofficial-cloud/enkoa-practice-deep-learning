@@ -1,0 +1,18 @@
+{
+  "기준": {},
+  "MTP": {
+    "speculative_config": {
+      "method": "mtp",
+      "num_speculative_tokens": 2
+    }
+  },
+  "KV_fp8": {
+    "kv_cache_dtype": "fp8"
+  },
+  "동시실행상한_16": {
+    "max_num_seqs": 16
+  },
+  "캐싱_끔": {
+    "enable_prefix_caching": false
+  }
+}

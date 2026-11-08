@@ -6,6 +6,7 @@ import asyncio
 import time
 
 from fastapi import FastAPI
+from fastapi.concurrency import run_in_threadpool
 
 app = FastAPI(title="도서관 안내 봇 API", version="0.3.0")
 
@@ -35,4 +36,12 @@ async def wait_blocking():
     """코루틴 엔드포인트 안에서 time.sleep 을 부른 예. 이벤트 루프가 BACKEND_DELAY 초 동안 멈춥니다."""
     time.sleep(BACKEND_DELAY)
     return {"endpoint": "async def + time.sleep"}
+
+
+# 고친 예: async def 안의 동기 함수는 run_in_threadpool 로 스레드 풀에 넘긴다
+@app.get("/wait/thread")
+async def wait_thread():
+    """time.sleep 을 스레드에서 실행하고, 이벤트 루프는 기다리는 동안 다른 요청을 처리합니다."""
+    await run_in_threadpool(time.sleep, BACKEND_DELAY)  # 함수와 인자를 따로 넘긴다
+    return {"endpoint": "async def + run_in_threadpool(time.sleep)"}
 

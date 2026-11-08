@@ -1,7 +1,7 @@
 """서버 상태를 확인하는 주소 묶음. 인증 없이 열어 둔다(배포 뒤 상태 확인에 쓴다)."""
 from fastapi import APIRouter
 
-from .backend import vllm_client
+from ..services.backend import vllm_client
 
 system_router = APIRouter(tags=["상태 확인"])
 

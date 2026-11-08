@@ -6,7 +6,7 @@ import time
 from fastapi import Depends, HTTPException
 from fastapi.security import APIKeyHeader
 
-from .config import settings
+from ..core.config import settings
 
 # 키를 받을 헤더 이름. auto_error=False 면 헤더가 없을 때 None 이 들어와 401 을 직접 정할 수 있다
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
@@ -28,7 +28,7 @@ async def require_service_key(api_key: str | None = Depends(api_key_header)):
     # 1) api_key 가 None 이거나 키 목록에 없으면 HTTPException 을 status_code 401 로 일으킨다
 
     # 2) 키 목록에서 그 키의 user, plan 을 꺼내 키와 함께 딕셔너리로 돌려준다
-    raise NotImplementedError("security.py 의 TODO (1) 부분을 완성하세요")
+    raise NotImplementedError("dependencies/security.py 의 TODO (1) 부분을 완성하세요")
 
 
 async def check_rate_limit(client: dict = Depends(require_service_key)):
@@ -43,4 +43,4 @@ async def check_rate_limit(client: dict = Depends(require_service_key)):
     # 2) 남은 수가 limit 이상이면 가장 오래된 요청이 창을 벗어날 때까지 남은 초를 math.ceil 로 올려 Retry-After 헤더에 담아 429 를 일으킨다
 
     # 3) 통과하면 now 를 더해 request_log 에 저장하고 client 를 돌려준다(거절한 요청은 한도에 세지 않는다)
-    raise NotImplementedError("security.py 의 TODO (2) 부분을 완성하세요")
+    raise NotImplementedError("dependencies/security.py 의 TODO (2) 부분을 완성하세요")

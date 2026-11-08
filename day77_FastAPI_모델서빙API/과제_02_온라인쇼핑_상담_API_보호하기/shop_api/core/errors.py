@@ -17,7 +17,7 @@ def error_response(status_code, code, message, headers=None):
     """오류 양식의 JSON 응답을 돌려준다."""
     # TODO (1): 본문이 {"error": {"code": code, "message": message}} 인 JSON 응답을 돌려주세요
     # 1) JSONResponse 에 status_code, content, headers 를 준다
-    raise NotImplementedError("errors.py 의 TODO (1) 부분을 완성하세요")
+    raise NotImplementedError("core/errors.py 의 TODO (1) 부분을 완성하세요")
 
 
 async def handle_http_error(request, exc):
@@ -25,7 +25,7 @@ async def handle_http_error(request, exc):
     # TODO (2): 상태 코드에 맞는 오류 이름으로 오류 양식 응답을 만들고, 예외의 헤더를 그대로 넘기세요
     # 1) ERROR_CODES 에서 exc.status_code 의 이름을 꺼내고, 없으면 "http_error" 를 쓴다(딕셔너리의 get)
     # 2) error_response 에 상태 코드, 이름, exc.detail 을 글자로 바꾼 값, exc.headers 를 준다
-    raise NotImplementedError("errors.py 의 TODO (2) 부분을 완성하세요")
+    raise NotImplementedError("core/errors.py 의 TODO (2) 부분을 완성하세요")
 
 
 async def handle_validation_error(request, exc):
@@ -34,21 +34,21 @@ async def handle_validation_error(request, exc):
     # 1) exc.errors() 의 첫 번째 딕셔너리를 꺼낸다
 
     # 2) loc 예: ("body", "question"). 마지막 값이 문제가 된 항목 이름이고, 내용은 msg 에 있다
-    raise NotImplementedError("errors.py 의 TODO (3) 부분을 완성하세요")
+    raise NotImplementedError("core/errors.py 의 TODO (3) 부분을 완성하세요")
 
 
 async def handle_vllm_timeout(request, exc):
     """vLLM 이 시간 제한 안에 답하지 않으면 504."""
     # TODO (4): 상태 코드 504, 오류 이름 backend_timeout 으로 오류 양식 응답을 돌려주세요
     # 1) error_response 에 다시 시도하라는 안내 문장을 message 로 준다
-    raise NotImplementedError("errors.py 의 TODO (4) 부분을 완성하세요")
+    raise NotImplementedError("core/errors.py 의 TODO (4) 부분을 완성하세요")
 
 
 async def handle_vllm_unreachable(request, exc):
     """vLLM 서버에 연결하지 못하면 502."""
     # TODO (5): 상태 코드 502, 오류 이름 backend_unavailable 로 오류 양식 응답을 돌려주세요
     # 1) error_response 에 다시 시도하라는 안내 문장을 message 로 준다
-    raise NotImplementedError("errors.py 의 TODO (5) 부분을 완성하세요")
+    raise NotImplementedError("core/errors.py 의 TODO (5) 부분을 완성하세요")
 
 
 async def handle_vllm_status_error(request, exc):

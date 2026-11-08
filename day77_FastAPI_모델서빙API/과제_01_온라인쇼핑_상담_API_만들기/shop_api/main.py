@@ -3,9 +3,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from .backend import vllm_client
-from .shop_router import shop_router
-from .system_router import system_router
+from .routers.shop_router import shop_router
+from .routers.system_router import system_router
+from .services.backend import vllm_client
 
 
 @asynccontextmanager

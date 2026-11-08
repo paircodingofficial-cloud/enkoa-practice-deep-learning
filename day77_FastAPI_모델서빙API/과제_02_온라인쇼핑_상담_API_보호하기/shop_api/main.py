@@ -1,11 +1,11 @@
-"""과제 01 서빙 API. 실행(과제 01 폴더): uv run uvicorn shop_api.main:app --host 0.0.0.0 --port 8080 --reload"""
+"""과제 01 에서 완성한 앱. 과제 02 는 이 파일 대신 secure_main.py 의 app 을 띄운다."""
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from .backend import vllm_client
-from .shop_router import shop_router
-from .system_router import system_router
+from .routers.shop_router import shop_router
+from .routers.system_router import system_router
+from .services.backend import vllm_client
 
 
 @asynccontextmanager
@@ -17,7 +17,6 @@ async def lifespan(app: FastAPI):
         await vllm_client.close()  # 종료 때 요청 처리에 쓴 vLLM 연결풀을 닫는다.
 
 
-# /docs 화면 맨 위에 보일 제목과 설명을 붙여 FastAPI 앱 app 을 만드세요
 # 1) FastAPI 에 title, description, version 을 준다(title 은 "온라인 쇼핑 상담 API", lifespan=lifespan 은 그대로 둔다)
 app = FastAPI(
     title="온라인 쇼핑 상담 API",
@@ -26,7 +25,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# 상태 확인 주소 묶음과 쇼핑 상담 주소 묶음을 앱에 붙이세요
 # 1) include_router 로 system_router 를 붙인다(/healthz, /v1/models)
 # 2) include_router 로 shop_router 를 붙인다(/v1/shop/...)
 app.include_router(system_router)

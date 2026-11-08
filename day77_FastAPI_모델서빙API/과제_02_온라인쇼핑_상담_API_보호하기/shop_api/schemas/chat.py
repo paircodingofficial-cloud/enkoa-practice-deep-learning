@@ -5,16 +5,13 @@ from pydantic import BaseModel, Field
 class ShopChatRequest(BaseModel):
     """쇼핑 상담 질문 하나(질문, 생각 켜기, 주문번호)."""
 
-    # 질문 question 을 2자 이상 300자 이하의 문자열로 받으세요
     # 1) 자료형은 str, 기본값은 두지 않는다(빠지면 422)
     # 2) Field 의 min_length, max_length 로 글자 수를 제한한다
     question: str = Field(min_length=2, max_length=300, description="고객의 질문(상담 창의 입력 한도 300자)")
 
-    # 생각 켜기 think 를 기본값 False 인 참거짓 값으로 받으세요
     # 1) 자료형은 bool, Field 의 default 로 기본값을 준다
     think: bool = Field(default=False, description="True 면 모델의 생각(reasoning)을 켜고 답과 따로 돌려준다")
 
-    # 주문번호 order_id 를 ORD- 뒤에 숫자 6자리인 문자열로 받되, 빠져도 되게 하세요
     # 1) 자료형은 str | None, 기본값은 None 이다
     # 2) Field 의 pattern 에 정규식 ^ORD-\d{6}$ 를 준다(형식이 틀리면 vLLM 에 보내기 전에 422)
     order_id: str | None = Field(default=None, pattern=r"^ORD-\d{6}$", description="질문과 관련된 주문번호(예: ORD-123456)")

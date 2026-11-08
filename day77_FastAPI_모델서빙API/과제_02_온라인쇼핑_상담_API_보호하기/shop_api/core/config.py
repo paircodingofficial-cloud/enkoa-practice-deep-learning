@@ -17,7 +17,7 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # 시스템 메시지에 붙일 참고 조문과 서비스 키 파일이 든 폴더(이 패키지 안의 resources)
-RESOURCE_DIR = Path(__file__).resolve().parent / "resources"
+RESOURCE_DIR = Path(__file__).resolve().parent.parent / "resources"
 
 
 class Settings(BaseSettings):

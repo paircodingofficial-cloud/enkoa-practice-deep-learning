@@ -6,11 +6,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI
 
-from .backend import vllm_client
-from .errors import register_error_handlers
-from .security import check_rate_limit
-from .shop_router import shop_router
-from .system_router import system_router
+from .core.errors import register_error_handlers
+from .dependencies.security import check_rate_limit
+from .routers.shop_router import shop_router
+from .routers.system_router import system_router
+from .services.backend import vllm_client
 
 
 @asynccontextmanager

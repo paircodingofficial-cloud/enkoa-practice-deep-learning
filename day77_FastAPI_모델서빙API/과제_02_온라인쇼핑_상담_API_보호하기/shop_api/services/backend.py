@@ -3,8 +3,8 @@ import json
 
 from openai import AsyncOpenAI
 
-from .config import RESOURCE_DIR, settings
-from .schemas import ChatResponse, Usage
+from ..core.config import RESOURCE_DIR, settings
+from ..schemas.chat import ChatResponse, Usage
 
 # 비동기 클라이언트는 이 파일을 불러올 때 하나만 만들어 모든 요청이 함께 쓴다(요청마다 만들면 연결 준비를 반복한다)
 # 만들 때는 연결을 열지 않는다. 첫 요청 때 연 연결을 연결풀에 두고 재사용하다가, 앱 조립 파일의 lifespan 이 종료 때 닫는다

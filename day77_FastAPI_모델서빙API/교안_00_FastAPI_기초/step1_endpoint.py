@@ -12,11 +12,6 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# 출처(origin)는 주소의 프로토콜(http/https), 호스트(localhost 등), 포트를 합친 것이다.
-# 예를 들어 http://localhost:3000에서 연 웹 화면의 JavaScript가 이 API를 호출한다고 가정한다.
-# API 주소는 http://127.0.0.1:8080이므로 호스트와 포트가 달라 서로 다른 출처다.
-# allow_origins에는 API 주소가 아니라, API를 호출하는 웹 화면의 출처를 적는다.
-# 이 설정은 브라우저가 허용된 웹 화면에서 API 응답을 읽을 수 있게 한다.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],

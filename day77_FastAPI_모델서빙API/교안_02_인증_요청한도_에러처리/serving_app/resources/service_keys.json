@@ -1,0 +1,10 @@
+{
+ "plans": {
+  "free": {"requests_per_minute": 3},
+  "pro": {"requests_per_minute": 30}
+ },
+ "keys": {
+  "svc-free-demo-0001": {"user": "체험 사용자", "plan": "free"},
+  "svc-pro-demo-0002": {"user": "상담 센터", "plan": "pro"}
+ }
+}

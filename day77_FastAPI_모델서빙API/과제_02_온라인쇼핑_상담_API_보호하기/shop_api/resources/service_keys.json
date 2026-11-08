@@ -1,0 +1,11 @@
+{
+ "plans": {
+  "free": {"requests_per_minute": 3},
+  "pro": {"requests_per_minute": 30}
+ },
+ "keys": {
+  "shop-free-demo-0001": {"user": "쇼핑몰 체험 사용자", "plan": "free"},
+  "shop-pro-demo-0002": {"user": "쇼핑몰 상담 센터", "plan": "pro"},
+  "shop-free-demo-0003": {"user": "쇼핑몰 체험 사용자 2", "plan": "free"}
+ }
+}

@@ -107,6 +107,15 @@ wheels = [
 ]
 
 [[package]]
+name = "aiosqlite"
+version = "0.22.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/4e/8a/64761f4005f17809769d23e518d915db74e6310474e733e3593cfc854ef1/aiosqlite-0.22.1.tar.gz", hash = "sha256:043e0bd78d32888c0a9ca90fc788b38796843360c855a7262a532813133a0650", size = 14821, upload-time = "2025-12-23T19:25:43.997Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/00/b7/e3bf5133d697a08128598c8d0abc5e16377b51465a33756de24fa7dee953/aiosqlite-0.22.1-py3-none-any.whl", hash = "sha256:21c002eb13823fad740196c5a2e9d8e62f6243bd9e7e4a1f87fb5e44ecb4fceb", size = 17405, upload-time = "2025-12-23T19:25:42.139Z" },
+]
+
+[[package]]
 name = "alembic"
 version = "1.20.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1025,10 +1034,13 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "accelerate" },
+    { name = "aiosqlite" },
     { name = "bitsandbytes" },
     { name = "datasets" },
     { name = "deepeval" },
     { name = "diffusers" },
+    { name = "fastapi" },
+    { name = "httpx" },
     { name = "huggingface-hub" },
     { name = "ipykernel" },
     { name = "jupyter" },
@@ -1047,10 +1059,12 @@ dependencies = [
     { name = "numpy", version = "2.3.5", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'linux'" },
     { name = "numpy", version = "2.5.4", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'linux'" },
     { name = "ollama" },
+    { name = "openai" },
     { name = "pandas" },
     { name = "peft" },
     { name = "pillow" },
     { name = "pydantic" },
+    { name = "pydantic-settings" },
     { name = "python-dotenv" },
     { name = "rank-bm25" },
     { name = "safetensors" },
@@ -1063,16 +1077,20 @@ dependencies = [
     { name = "triton", marker = "sys_platform == 'linux'" },
     { name = "trl" },
     { name = "typesafe-sdk" },
+    { name = "uvicorn" },
     { name = "vllm", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "accelerate", specifier = ">=1.14" },
+    { name = "aiosqlite", specifier = ">=0.22.1" },
     { name = "bitsandbytes", specifier = ">=0.48" },
     { name = "datasets", specifier = ">=5.0" },
     { name = "deepeval", specifier = ">=4.2.9" },
     { name = "diffusers", specifier = ">=0.39,<0.40" },
+    { name = "fastapi", specifier = ">=0.133.0,<0.137.0" },
+    { name = "httpx", specifier = ">=0.28.1" },
     { name = "huggingface-hub", specifier = ">=1.13,<1.33" },
     { name = "ipykernel", specifier = ">=7.3.0" },
     { name = "jupyter", specifier = ">=1.1" },
@@ -1090,10 +1108,12 @@ requires-dist = [
     { name = "mlflow", specifier = ">=3.14,<3.15" },
     { name = "numpy", specifier = ">=2.3" },
     { name = "ollama", specifier = ">=0.6" },
+    { name = "openai", specifier = ">=2.45.0" },
     { name = "pandas", specifier = ">=2.3,<3" },
     { name = "peft", specifier = ">=0.19.1,<0.20" },
     { name = "pillow", specifier = ">=11" },
     { name = "pydantic", specifier = ">=2" },
+    { name = "pydantic-settings", specifier = ">=2.14.2" },
     { name = "python-dotenv", specifier = ">=1.2" },
     { name = "rank-bm25", specifier = ">=0.2.2" },
     { name = "safetensors", specifier = ">=0.6" },
@@ -1106,6 +1126,7 @@ requires-dist = [
     { name = "triton", marker = "sys_platform == 'linux'", specifier = "==3.7.1" },
     { name = "trl", specifier = ">=1.8,<2" },
     { name = "typesafe-sdk", specifier = ">=0.7.5" },
+    { name = "uvicorn", specifier = ">=0.51.0" },
     { name = "vllm", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'", specifier = "==0.27.0" },
 ]
 
@@ -1131,9 +1152,6 @@ wheels = [
 name = "fastapi"
 version = "0.136.3"
 source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "sys_platform == 'linux'",
-]
 dependencies = [
     { name = "annotated-doc" },
     { name = "pydantic" },
@@ -1157,26 +1175,6 @@ standard = [
     { name = "pydantic-settings" },
     { name = "python-multipart" },
     { name = "uvicorn", extra = ["standard"] },
-]
-
-[[package]]
-name = "fastapi"
-version = "0.162.0"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "sys_platform != 'linux'",
-]
-dependencies = [
-    { name = "annotated-doc" },
-    { name = "opentelemetry-api" },
-    { name = "pydantic" },
-    { name = "starlette" },
-    { name = "typing-extensions" },
-    { name = "typing-inspection" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/e9/eb/2cf8c80abf09b2800aef0a83b41066fbfda8ee5495b7a08b9d1af40f7046/fastapi-0.162.0.tar.gz", hash = "sha256:6a22c1e2e6e32e0633ee7e170f00009a29b8228b16feb219ee42f32fd8d88a8f", size = 527867, upload-time = "2026-10-23T18:47:33.264Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b4/4f/3f2c25c9b43970b5e9a08beb5e04776247edea684ddc0930f4f02f0bb6cb/fastapi-0.162.0-py3-none-any.whl", hash = "sha256:3785963de305dd09912426cb81f2d230fce98ab3521cdfe97265c8d14983128c", size = 148912, upload-time = "2026-10-23T18:47:31.734Z" },
 ]
 
 [[package]]
@@ -2834,8 +2832,7 @@ dependencies = [
     { name = "click" },
     { name = "cloudpickle" },
     { name = "databricks-sdk" },
-    { name = "fastapi", version = "0.136.3", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'linux'" },
-    { name = "fastapi", version = "0.162.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'linux'" },
+    { name = "fastapi" },
     { name = "gitpython" },
     { name = "importlib-metadata" },
     { name = "opentelemetry-api" },
@@ -2909,7 +2906,7 @@ name = "model-hosting-container-standards"
 version = "0.1.16"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "fastapi", version = "0.136.3", source = { registry = "https://pypi.org/simple" } },
+    { name = "fastapi" },
     { name = "httpx" },
     { name = "jmespath" },
     { name = "pydantic" },
@@ -5579,7 +5576,7 @@ dependencies = [
     { name = "compressed-tensors" },
     { name = "depyf" },
     { name = "einops" },
-    { name = "fastapi", version = "0.136.3", source = { registry = "https://pypi.org/simple" }, extra = ["standard"] },
+    { name = "fastapi", extra = ["standard"] },
     { name = "fastsafetensors" },
     { name = "filelock" },
     { name = "flashinfer-python" },

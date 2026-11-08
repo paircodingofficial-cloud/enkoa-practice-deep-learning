@@ -69,6 +69,13 @@ dependencies = [
     "pillow>=11",
     # day72~: QLoRA 4비트 불러오기(BitsAndBytesConfig, Linear4bit)와 4비트 단계 값(get_4bit_type). macOS arm64·리눅스·윈도우 휠이 있다
     "bitsandbytes>=0.48",
+    # day77: FastAPI 서빙 API(serving_app, shop_api, 교안 00 step 파일)와 노트북의 HTTP 요청. 실습자료 공용 환경과 같은 범위
+    "fastapi>=0.133.0,<0.137.0",
+    "pydantic-settings>=2.14.2",
+    "uvicorn>=0.51.0",
+    "httpx>=0.28.1",
+    "aiosqlite>=0.22.1",
+    "openai>=2.45.0",
 ]
 
 [tool.uv]

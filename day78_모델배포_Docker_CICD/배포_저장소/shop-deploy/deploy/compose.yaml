@@ -1,0 +1,12 @@
+# GCP VM 에서 온라인 쇼핑 상담 API 컨테이너를 띄우는 실행 설정(과제 01)
+# 실행: 이 deploy 폴더에서 docker compose up -d. 교안의 서빙 API(8080)와 겹치지 않게 VM 의 8081 포트를 쓴다
+# 프로젝트 이름. 정하지 않으면 폴더 이름(deploy)이 되어, 같은 VM 의 다른 저장소 compose 와 겹친다
+name: shop-deploy
+
+services:
+  shop-api:
+    image: ${SHOP_IMAGE}:${IMAGE_TAG:-latest}
+    ports:
+      - "8081:8080"
+    env_file: .env
+    restart: unless-stopped

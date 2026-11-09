@@ -1,0 +1,44 @@
+# 이미지를 빌드해 GHCR 에 올리는 워크플로(과제 01). 이 파일을 저장소의 .github/workflows/ 로 복사하면 GitHub 이 실행한다(workflows/ 에 있는 동안은 실행되지 않는다)
+name: image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write                                   # GITHUB_TOKEN 에 GHCR 쓰기 권한을 준다(없으면 올리는 단계에서 거절)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 저장소 받기
+        uses: actions/checkout@v7
+      - name: 이미지 이름 정하기
+        id: image
+        # 이미지 이름은 소문자만 된다. ${GITHUB_REPOSITORY,,} 는 "계정/저장소"를 소문자로 바꾼다
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+      # Docker 의 확장 빌드 도구 buildx. 아래 type=gha 캐시는 buildx 로 빌드할 때만 쓸 수 있다
+      - name: 빌드 도구(buildx) 준비
+        uses: docker/setup-buildx-action@v4
+      # docker login 과 같다. 실행한 사람(github.actor)과 GITHUB_TOKEN 으로 ghcr.io 에 로그인한다
+      - name: GHCR 로그인
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}     # 실행마다 GitHub 가 주는 토큰(따로 등록하지 않음)
+      - name: 빌드하고 올리기
+        uses: docker/build-push-action@v7
+        with:
+          context: .                                # 저장소 폴더를 빌드한다
+          push: true                                # tags 의 이름을 모두 GHCR 에 올린다
+          # 태그 둘: 커밋 sha(github.sha, 이 실행을 시작한 커밋. 되돌릴 때 부르는 이름)와 latest(가장 최근)
+          tags: |
+            ${{ steps.image.outputs.name }}:${{ github.sha }}
+            ${{ steps.image.outputs.name }}:latest
+          cache-from: type=gha                      # 지난 실행의 레이어 캐시를 가져온다
+          cache-to: type=gha,mode=max               # 이번 실행의 모든 레이어를 캐시로 남긴다

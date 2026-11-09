@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+output/
+mlruns/
+.DS_Store
+.omc/
+.deepeval
+.deepeval_telemetry.txt

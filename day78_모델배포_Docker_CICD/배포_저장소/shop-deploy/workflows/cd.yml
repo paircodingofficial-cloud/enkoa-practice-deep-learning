@@ -1,0 +1,23 @@
+# 온라인 쇼핑 상담 API 의 배포 워크플로(과제 02). ci 가 성공한 main 커밋만 VM 에 배포한다. 이 파일을 ci.yml 과 함께 저장소의 .github/workflows/ 로 복사한다
+name: cd
+
+# TODO (3): ci 워크플로의 실행이 끝나면 돌게 하세요(main 브랜치의 실행만)
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    # TODO (3): ci 가 성공했고 main 에 push 해 시작된 실행에서만 돌게 하고, 동시 배포를 막는 묶음 vm-deploy 를 정하세요
+
+    steps:
+      - name: 저장소 받기
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}   # ci 실행의 커밋 sha(ci 가 테스트한 바로 그 커밋을 받는다)
+      - name: VM 에 배포하고 /healthz 확인
+        run: bash scripts/deploy_vm.sh
+        # TODO (4): 비밀 변수 VM_SSH_KEY, 변수 VM_HOST 와 VM_USER, ci 실행의 커밋 sha 를 IMAGE_TAG 로 env 에 넘기세요

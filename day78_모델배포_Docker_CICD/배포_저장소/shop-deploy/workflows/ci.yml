@@ -17,7 +17,7 @@ jobs:
   unit:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # 서빙 API 설정(shop_api/core/config.py)이 불러올 때 꼭 읽는 키 자리(테스트 전용 값)
+    # 쇼핑 상담 API 설정(shop_api/core/config.py)이 불러올 때 꼭 읽는 키 자리(테스트 전용 값)
     env:
       VLLM_API_KEY: ci-only-not-a-real-key            # vLLM 키 자리에 넣는 테스트 전용 값(실제 키가 아님)
     steps:

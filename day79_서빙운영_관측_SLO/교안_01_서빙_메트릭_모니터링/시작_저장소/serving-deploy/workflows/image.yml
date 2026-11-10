@@ -1,0 +1,56 @@
+# 이미지를 빌드해 GHCR 에 올리는 워크플로(교안 01). 이 파일을 저장소의 .github/workflows/ 로 복사하면 GitHub 이 실행한다(workflows/ 에 있는 동안은 실행되지 않는다)
+
+name: image                                           # Actions 화면에 보일 워크플로 이름
+
+# 이 워크플로를 실행할 때
+on:
+  # main 브랜치에 push 하면 실행한다
+  push:
+    branches: [main]
+  workflow_dispatch:                                  # Actions 화면의 Run workflow 버튼으로도 실행할 수 있게 한다
+
+# 이 실행이 쓰는 토큰(GITHUB_TOKEN)의 권한
+permissions:
+  contents: read                                      # 저장소 코드는 읽기만 한다
+  packages: write                                     # GHCR 에 이미지를 올릴 수 있게 한다(없으면 올리는 단계에서 거절된다)
+
+# 실행할 작업 목록(작업 하나: build)
+jobs:
+  build:
+    runs-on: ubuntu-latest                            # GitHub 이 준비한 우분투 러너(실행마다 새로 받는 빈 컴퓨터)에서 실행한다
+    timeout-minutes: 15                               # 15분이 넘으면 작업을 멈춘다
+    # 위에서부터 차례로 실행할 단계
+    steps:
+      # 저장소 파일을 러너로 받아 온다
+      - name: 저장소 받기
+        uses: actions/checkout@v7
+
+      # 이미지 이름을 정해 이 단계의 출력(name)으로 남긴다
+      - name: 이미지 이름 정하기
+        id: image                                     # 뒤 단계가 steps.image.outputs.name 으로 이 단계의 출력을 읽게 붙이는 이름
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"   # "계정/저장소"를 소문자로 바꿔(,,) name=값 한 줄을 출력 파일에 쓴다(이미지 이름은 소문자만 된다)
+
+      # Docker 의 확장 빌드 도구 buildx 를 준비한다. 아래 type=gha 캐시는 buildx 로 빌드할 때만 쓸 수 있다
+      - name: 빌드 도구(buildx) 준비
+        uses: docker/setup-buildx-action@v4
+
+      # docker login 과 같다. GHCR 에 로그인한다
+      - name: GHCR 로그인
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io                           # 로그인할 레지스트리
+          username: ${{ github.actor }}               # 이 실행을 시작한 GitHub 사용자
+          password: ${{ secrets.GITHUB_TOKEN }}       # 실행마다 GitHub 가 주는 토큰(따로 등록하지 않음)
+
+      # 이미지를 빌드하고 GHCR 에 올린다
+      - name: 빌드하고 올리기
+        uses: docker/build-push-action@v7
+        with:
+          context: .                                  # 저장소 폴더를 빌드 컨텍스트로 쓴다(그 폴더의 Dockerfile 로 빌드)
+          push: true                                  # tags 의 이름을 모두 GHCR 에 올린다
+          # 태그 둘: 커밋 sha(github.sha, 이 실행을 시작한 커밋. 되돌릴 때 부르는 이름)와 latest(가장 최근)
+          tags: |
+            ${{ steps.image.outputs.name }}:${{ github.sha }}
+            ${{ steps.image.outputs.name }}:latest
+          cache-from: type=gha                        # 지난 실행이 GitHub Actions 캐시(GHCR 이 아님)에 남긴 레이어를 가져온다
+          cache-to: type=gha,mode=max                 # 이번 실행의 모든 레이어를 GitHub Actions 캐시에 남긴다(GHCR 에는 이미지만 올라간다)

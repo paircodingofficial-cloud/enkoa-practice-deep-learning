@@ -1,0 +1,25 @@
+# GCP VM 에서 서빙 API 컨테이너를 띄우는 실행 설정(교안 02)
+# 실행: 이 deploy 폴더에서 docker compose up -d, 끄기: docker compose down
+# 같은 폴더의 .env 를 두 번 쓴다. ${...} 자리는 compose 가 채우고(이미지 이름), env_file 은 컨테이너 환경 변수가 된다
+
+name: serving-deploy                                  # compose 프로젝트 이름. 정하지 않으면 폴더 이름(deploy)이 되어 같은 VM 의 다른 저장소 compose 와 겹친다
+
+# 띄울 컨테이너(서비스) 목록
+services:
+  serving-api:                                        # 서비스 이름. compose 가 컨테이너 이름을 serving-deploy-serving-api-1 로 만든다
+    image: ${SERVING_IMAGE}:${IMAGE_TAG:-latest}      # 띄울 이미지. ${이름} 은 명령 앞의 환경 변수나 같은 폴더 .env 에서 채우고, ${IMAGE_TAG:-latest} 는 IMAGE_TAG 가 없거나 비면 latest 가 된다(배포 작업은 커밋 sha 를 준다)
+    # VM 포트를 컨테이너 포트에 잇는 목록(docker run -p 와 같다)
+    ports:
+      - "8080:8080"                                   # VM 의 8080 포트를 컨테이너의 8080 포트에 잇는다("VM 쪽:컨테이너 쪽")
+    env_file: .env                                    # 같은 폴더 .env 의 이름=값 줄을 모두 컨테이너 환경 변수로 넣는다(docker run -e 를 여러 번 붙인 것과 같다). vLLM 주소, vLLM 키, 관리자 키, 시간 제한을 이미지에 넣지 않고 여기서 준다
+    # 컨테이너 환경 변수를 하나씩 더 적는다
+    environment:
+      IMAGE_TAG: ${IMAGE_TAG:-latest}                 # 지금 띄운 이미지 태그를 컨테이너 안에도 IMAGE_TAG 로 넘긴다(배포 버전 표시용)
+    # 컨테이너에 붙일 볼륨 목록(docker run -v 와 같다)
+    volumes:
+      - service-data:/app/data                        # 이름 있는 볼륨 service-data 를 키 DB 폴더 /app/data 에 붙인다. 컨테이너를 지우고 다시 만들어도 볼륨의 파일(키 DB)은 남는다
+    restart: unless-stopped                           # 서버가 죽거나 VM 이 다시 켜지면 저절로 다시 띄운다(사람이 docker compose stop 으로 멈춘 경우는 빼고)
+
+# 이 파일이 쓰는 이름 있는 볼륨을 한 번 선언한다
+volumes:
+  service-data:                                       # 위 서비스가 /app/data 에 붙이는 볼륨. Docker 에는 serving-deploy_service-data 라는 이름으로 만들어진다

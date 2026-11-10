@@ -1,0 +1,136 @@
+# CI: 커밋마다 단위 테스트를 하고, 이미지를 빌드해 테스트한 뒤 통과한 이미지만 GHCR 에 올리는 워크플로(교안 03). 이 파일과 cd.yml 을 저장소의 .github/workflows/ 로 복사하고, 같은 빌드를 하는 .github/workflows/image.yml 은 지운다
+
+name: ci                                              # Actions 화면 왼쪽 목록에 보일 워크플로 이름. cd.yml 이 이 이름으로 이 워크플로를 지켜본다
+
+# 이 워크플로를 실행할 때
+on:
+  # main 브랜치에 push 하면 실행한다
+  push:
+    branches: [main]
+  pull_request:                                       # pull request 를 열거나 그 브랜치에 커밋을 더 올리면 실행한다
+  workflow_dispatch:                                  # Actions 화면의 Run workflow 버튼으로도 실행할 수 있게 한다
+
+# 이 실행이 쓰는 토큰(GITHUB_TOKEN)의 권한
+permissions:
+  contents: read                                      # 저장소 코드는 읽기만 한다
+  packages: write                                     # GHCR 에 이미지를 올릴 수 있게 한다
+
+# 실행할 작업 목록(작업 둘: unit, image)
+jobs:
+  # 1) 단위 테스트: 이미지 없이 코드의 함수와 양식만 빠르게 확인한다
+  unit:
+    runs-on: ubuntu-latest                            # GitHub 이 준비한 우분투 러너에서 실행한다(작업마다 새 러너)
+    timeout-minutes: 10                               # 10분 안에 끝나지 않으면 작업을 취소한다
+    # 서빙 API 설정과 tests/conftest.py 가 꼭 읽는 키 자리(모두 테스트 전용 값)
+    env:
+      VLLM_API_KEY: ci-only-not-a-real-key            # vLLM 키 자리에 넣는 테스트 전용 값(실제 키가 아님)
+      ADMIN_API_KEY: ci-only-admin-key                # 관리자 키 자리에 넣는 테스트 전용 값
+    steps:
+      # 저장소 코드(serving_app, tests 폴더)를 러너로 받아 온다
+      - name: 저장소 받기
+        uses: actions/checkout@v7
+
+      # 러너에 uv 를 설치한다
+      - name: uv 설치
+        uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version: "3.12"                      # uv 가 쓸 파이썬 버전
+          enable-cache: true                          # 받은 패키지를 캐시에 남겨 다음 실행에서 다시 쓴다
+
+      # uv.lock 의 버전 그대로 서버 라이브러리와 dev 묶음의 pytest 를 설치한다
+      - name: 테스트 라이브러리 설치
+        run: uv sync --locked                         # --locked: uv.lock 이 pyproject.toml 과 맞지 않으면 실패한다
+
+      # 이미지 없이 코드만으로 도는 테스트를 실행한다(-v: 테스트마다 결과를 한 줄씩 보인다)
+      - name: 단위 테스트
+        run: uv run pytest -v tests/test_unit.py
+
+  # 2) 이미지: 러너에서 이미지를 빌드해 컨테이너로 띄워 테스트하고, 테스트를 통과한 이미지만 GHCR 에 올린다
+  image:
+    needs: unit                                       # unit 이 성공해야 시작한다
+    runs-on: ubuntu-latest                            # GitHub 이 준비한 우분투 러너에서 실행한다(작업마다 새 러너)
+    timeout-minutes: 20                               # 20분 안에 끝나지 않으면 작업을 취소한다
+    # 위에서부터 차례로 실행할 단계(각 단계의 name 은 실행 로그에 보이는 이름). 앞 단계가 실패하면 뒤 단계는 건너뛴다
+    steps:
+      # 저장소 코드(Dockerfile, serving_app, tests 폴더)를 러너로 받아 온다
+      - name: 저장소 받기
+        uses: actions/checkout@v7
+
+      # 이미지 이름을 정해 이 단계의 출력(name)으로 남긴다
+      - name: 이미지 이름 정하기
+        id: image                                     # 뒤 단계가 steps.image.outputs.name 으로 이 단계의 출력을 읽게 붙이는 이름
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"   # "계정/저장소"를 소문자로 바꿔(,,) name=값 한 줄을 출력 파일에 쓴다(이미지 이름은 소문자만 된다)
+
+      # Docker 의 확장 빌드 도구 buildx 를 준비한다. 아래 type=gha 캐시는 buildx 로 빌드할 때만 쓸 수 있다
+      - name: 빌드 도구(buildx) 준비
+        uses: docker/setup-buildx-action@v4
+
+      # 이미지를 빌드해 러너의 Docker 에만 둔다(아직 GHCR 에 올리지 않는다)
+      - name: 이미지 빌드
+        uses: docker/build-push-action@v7
+        with:
+          context: .                                  # 저장소 맨 위 폴더의 Dockerfile 로 빌드한다
+          load: true                                  # 빌드한 이미지를 러너의 Docker 에 넣어 docker run 으로 띄울 수 있게 한다
+          push: false                                 # 테스트 전이라 GHCR 에 올리지 않는다
+          tags: ${{ steps.image.outputs.name }}:${{ github.sha }}   # 커밋 sha 태그 하나만 붙인다(github.sha: push 실행에서는 올린 커밋의 16진수 40자리)
+          cache-from: type=gha                        # 지난 실행이 GitHub Actions 캐시에 남긴 레이어를 다시 쓴다
+          cache-to: type=gha,mode=max                 # 이번 빌드의 레이어를 중간 레이어까지 모두(mode=max) 캐시에 남긴다
+
+      # 방금 빌드한 이미지로 컨테이너를 띄운다. -e 이름 은 아래 env 의 같은 이름 값을 컨테이너에 넘긴다
+      - name: 컨테이너 띄우기
+        env:
+          IMAGE: ${{ steps.image.outputs.name }}:${{ github.sha }}   # 띄울 이미지(방금 빌드한 것)
+          VLLM_BASE_URL: http://127.0.0.1:9/v1        # 아무도 듣지 않는 주소. CI 에는 vLLM 이 없으므로 상담은 502 가 정상
+          VLLM_API_KEY: ci-only-not-a-real-key        # vLLM 키 자리에 넣는 테스트 전용 값(실제 키가 아님)
+          ADMIN_API_KEY: ci-only-admin-key            # 서버의 관리자 키. 아래 이미지 테스트 단계의 값과 같아야 한다
+          VLLM_TIMEOUT_SECONDS: "5"                   # vLLM 응답을 최대 5초 기다린다(환경 변수 값이라 따옴표로 감싼다)
+        run: docker run -d --name serving-api -p 8080:8080 -e VLLM_BASE_URL -e VLLM_API_KEY -e ADMIN_API_KEY -e VLLM_TIMEOUT_SECONDS "$IMAGE"
+
+      # 아래 스크립트: /healthz 를 2초 간격으로 최대 30번 요청해, 성공하면 단계를 성공(exit 0)으로 끝내고 30번 모두 실패하면 실패(exit 1)로 끝낸다
+      # curl 의 -f 는 상태 코드 400 이상을 실패로 보고, -sS 는 진행 표시 없이 오류만 보인다
+      - name: 서버가 뜰 때까지 기다리기
+        run: |
+          for attempt in $(seq 1 30); do
+            curl -fsS http://localhost:8080/healthz && exit 0
+            sleep 2
+          done
+          exit 1
+
+      # 러너에 uv 를 설치한다
+      - name: uv 설치
+        uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version: "3.12"                      # uv 가 쓸 파이썬 버전
+          enable-cache: true                          # 받은 패키지를 캐시에 남겨 다음 실행에서 다시 쓴다
+
+      # uv.lock 의 버전 그대로 dev 묶음의 pytest 까지 설치한다
+      - name: 테스트 라이브러리 설치
+        run: uv sync --locked                         # --locked: uv.lock 이 pyproject.toml 과 맞지 않으면 실패한다
+
+      # tests/test_api.py 의 테스트를 띄운 컨테이너에 요청하며 실행한다(-v: 테스트마다 결과를 한 줄씩 보인다)
+      - name: 이미지 테스트
+        env:
+          SERVING_URL: http://localhost:8080          # 테스트가 요청을 보낼 컨테이너 주소
+          ADMIN_API_KEY: ci-only-admin-key            # conftest.py 가 읽는 관리자 키. 컨테이너의 값과 같다
+        run: uv run pytest -v tests/test_api.py
+
+      # 앞 단계가 실패했을 때만 컨테이너 로그를 보인다(서버가 왜 안 떴는지 찾을 때 본다)
+      - name: 실패하면 컨테이너 로그 보기
+        if: failure()                                 # 앞 단계 가운데 하나라도 실패했을 때만 실행한다
+        run: docker logs serving-api || true            # 빌드 단계에서 멈춰 컨테이너가 없어도 이 단계는 오류로 끝나지 않게 한다
+
+      # docker login 과 같다. 테스트를 통과했을 때만 여기까지 온다
+      - name: GHCR 로그인
+        if: github.event_name != 'pull_request'       # pull request 실행은 테스트까지만 하고 올리지 않는다
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io                           # 로그인할 레지스트리
+          username: ${{ github.actor }}               # 이 실행을 시작한 GitHub 사용자
+          password: ${{ secrets.GITHUB_TOKEN }}       # 실행마다 GitHub 가 주는 토큰. 권한은 위 permissions 대로다
+
+      # 테스트를 통과한 바로 그 이미지를 GHCR 에 올린다
+      - name: 이미지 올리기
+        if: github.event_name != 'pull_request'       # pull request 실행은 올리지 않는다
+        env:
+          IMAGE: ${{ steps.image.outputs.name }}:${{ github.sha }}   # 올릴 이미지(테스트한 것)
+        run: docker push "$IMAGE"

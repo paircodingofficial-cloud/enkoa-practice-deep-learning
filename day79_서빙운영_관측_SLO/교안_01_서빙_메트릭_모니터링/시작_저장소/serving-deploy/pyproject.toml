@@ -1,0 +1,26 @@
+[project]
+name = "serving-deploy"
+version = "0.1.0"
+description = "노무, 전월세 상담 서빙 API(배포용). 서버 실행에 필요한 라이브러리만 담는다"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.133.0,<0.137.0",
+    "uvicorn>=0.51.0",
+    "httpx>=0.28.1",
+    "openai>=2.45.0,<3",          # day77 서빙 코드를 검증한 버전(2.x)
+    "python-dotenv>=1.2.2",
+    "pydantic-settings>=2.14.2",  # day77 서빙 코드가 설정(config.py 의 Settings)을 읽는 라이브러리
+    "aiosqlite>=0.22.1",          # day77 키 저장소(repositories/key_store.py)가 SQLite 를 await 로 읽고 쓰는 라이브러리
+]
+
+# 배포 전 테스트에만 쓰는 라이브러리. 이미지에는 넣지 않는다(uv sync --no-dev)
+[dependency-groups]
+dev = ["pytest>=9.1.1"]
+
+# 이 저장소는 설치할 패키지가 아니라 서버 코드 모음이다
+[tool.uv]
+package = false
+
+# pytest 가 저장소 맨 위 폴더를 import 경로에 넣어 tests/ 에서 serving_app 을 불러오게 한다(단위 테스트)
+[tool.pytest.ini_options]
+pythonpath = ["."]

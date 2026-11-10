@@ -77,6 +77,9 @@ dependencies = [
     "aiosqlite>=0.22.1",
     "openai>=2.45.0",
     "pyyaml>=6.0.3",
+    # day79: 노트북에서 /metrics 를 읽고 Langfuse trace 를 조회한다
+    "langfuse>=5.2.0",
+    "prometheus-client>=0.26.0",
 ]
 
 [tool.uv]

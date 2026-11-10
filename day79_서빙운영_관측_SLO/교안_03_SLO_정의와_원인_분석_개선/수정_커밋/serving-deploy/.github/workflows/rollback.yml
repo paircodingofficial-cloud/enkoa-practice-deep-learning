@@ -1,0 +1,30 @@
+# 이전 이미지로 되돌리는 워크플로(관측 단원 교안 03). 저장소의 .github/workflows 에 두면 Actions 화면에서 Run workflow 로 실행한다
+name: rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "되돌릴 이미지 태그(ci 를 통과해 배포했던 커밋의 sha 전체)"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: vm-deploy
+      cancel-in-progress: false
+    steps:
+      - name: 저장소 받기
+        uses: actions/checkout@v7
+      - name: 지정한 이미지로 VM 배포하고 /healthz 확인
+        env:
+          VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
+          VM_HOST: ${{ vars.VM_HOST }}
+          VM_USER: ${{ vars.VM_USER }}
+          IMAGE_TAG: ${{ inputs.image_tag }}        # 입력값은 env 로만 넘긴다(run 줄에 바로 쓰지 않는다)
+        run: bash scripts/deploy_vm.sh
